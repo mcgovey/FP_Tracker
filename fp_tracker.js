@@ -1,0 +1,96 @@
+Leads = new Mongo.Collection("leads");
+
+if (Meteor.isClient) {
+  Meteor.subscribe("leads");
+
+
+  Template.leads.helpers({
+    'lead': function(){
+      return Leads.find({}, {sort: {createdAt: -1}});
+    },
+    isOwner: function () {
+      return this.owner === Meteor.userId();
+    }
+  });
+
+  Template.leadForm.helpers({
+      setDropdownValue: function(){
+        $('[name="leadSource"]').val(this.source);
+      }
+
+      // 'checked': function(){
+          
+      //     // var checkedVal = Leads.find({ _id: this._id }).fetch()[0].source;
+
+      //     // $('[name="leadSource"] [val='+checkedVal+']').checked
+      //     console.log("this",this);
+      //     // var isCompleted = this.checked;
+      //     // if(isCompleted){
+      //     //     return "checked";
+      //     // } else {
+      //     //     return "";
+      //     // }
+
+      //     //:checked
+
+      //     // $('[name="leadSource"]:input:radio').each(function() {
+      //     //   var checked = this.value;
+      //     //   console.log('values',checked);
+      //     // });
+      //     // return 'checked';
+      // }
+  });
+
+
+
+  Template.addLead.onRendered(function() {
+      $('.todayDefault').val(new Date().toDateInputValue());
+  });
+  Template.addLead.events({
+    // 'keyup': function(event){
+    //   if(event.which == 13 || event.which == 27){
+    //     $(event.target).blur();
+    //   } else {
+    //     var documentId = this._id;
+    //     var todoItem = $(event.target).val();
+    //     Leads.update({ _id: documentId }, {$set: { name: leadName }});
+    //   }
+    // },
+    
+    "submit": function (event) {
+        event.preventDefault();
+        var leadText  = {
+                          name        : $('[name="leadName"]').val(),
+                          inquiryDate : $('[name="leadInquiryDate"]').val(),
+                          source      : $('[name="leadSource"]').val()
+                        };
+        // console.log('leadText:',leadText);
+        Meteor.call("addLead",leadText);
+        $('#newLeadForm')[0].reset();
+    }
+  });
+}
+Meteor.methods({
+  addLead: function (text) {
+    // Make sure the user is logged in before inserting a task
+    // if (! Meteor.userId()) {
+    //   throw new Meteor.Error("not-authorized");
+    // }
+    Leads.insert({
+      name        : text.name,
+      inquiryDate : text.inquiryDate,
+      source      : text.source,
+      createdAt   : new Date()
+      // ,owner       : Meteor.userId(),
+      // ownerEmail  : Meteor.user().emails[0].address
+    });
+  }
+});
+
+
+if (Meteor.isServer) {
+  Meteor.publish("leads", function () {
+    return Leads.find({});
+  });
+}
+
