@@ -47,16 +47,14 @@ if (Meteor.isClient) {
       $('.todayDefault').val(new Date().toDateInputValue());
   });
   Template.addLead.events({
-
-    
     "submit": function (event) {
         event.preventDefault();
         var leadText  = {
-                          name          : $('[name="leadName"]').val(),
-                          inquiryDate   : $('[name="leadInquiryDate"]').val(),
-                          source        : $('[name="leadSource"]').val(),
-                          sourceDetails : $('[name="sourceDetails"]').val()
-                        };
+            name          : $('[name="leadName"]').val(),
+            inquiryDate   : $('[name="leadInquiryDate"]').val(),
+            source        : $('[name="leadSource"]').val(),
+            sourceDetails : $('[name="sourceDetails"]').val()
+          };
 
         // console.log('leadText:',leadText);
         Meteor.call("addLead",leadText);
@@ -64,14 +62,17 @@ if (Meteor.isClient) {
     }
   });
   Template.editLead.events({
-    'keyup': function(event){
-      console.log('this.id',this._id);
-      if(event.which == 13 || event.which == 27){
-        $(event.target).blur();
-      } else {
-        var documentId = this._id;
-        var todoItem = $(event.target).val();
-        // Leads.update({ _id: documentId }, {$set: { name: leadName }});
+    'submit': function(event){
+      event.preventDefault();
+      var documentId = this._id;
+      var leadText  = {
+            name          : $('[name="leadName"]').val(),
+            inquiryDate   : $('[name="leadInquiryDate"]').val(),
+            source        : $('[name="leadSource"]').val(),
+            sourceDetails : $('[name="sourceDetails"]').val()
+          };
+
+      Meteor.call("updateLead", documentId, leadText);
       }
     }
         
@@ -79,22 +80,30 @@ if (Meteor.isClient) {
 }
 Meteor.methods({
   addLead: function (text) {
-    // Make sure the user is logged in before inserting a task
-    // if (! Meteor.userId()) {
-    //   throw new Meteor.Error("not-authorized");
-    // }
     Leads.insert({
       name          : text.name,
       inquiryDate   : text.inquiryDate,
       source        : text.source,
       sourceDetails : text.sourceDetails,
+      lastMod       : new Date(),
       createdAt     : new Date()
       // ,owner       : Meteor.userId(),
       // ownerEmail  : Meteor.user().emails[0].address
     });
   },
-  updateLead: function (text) {
-
+  updateLead: function (documentId, text) {
+    Leads.update({ 
+        _id: documentId 
+      }, {$set: { 
+      name          : text.name,
+      inquiryDate   : text.inquiryDate,
+      source        : text.source,
+      sourceDetails : text.sourceDetails,
+      lastMod       : new Date()
+      // ,owner       : Meteor.userId(),
+      // ownerEmail  : Meteor.user().emails[0].address
+      }}
+    );
   }
 });
 

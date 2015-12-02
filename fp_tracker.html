@@ -35,7 +35,7 @@
 	    		<th>Name</th>
 	    		<th>Inquiry Date</th>
 	    		<th>Source</th>
-	    		<th>View/Edit</th>
+	    		<th>Delete</th>
 	    	</tr>
 	    	{{#each lead}}
 	    		{{> leadItem}}
@@ -52,7 +52,7 @@
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{name}} 			</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{inquiryDate}} 	</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{source}} 			</div></a></td>
-		<td>Delete</td>
+		<td><a href="#" class="delete-lead">Delete</a></td>
     </tr>
     </template>
 
@@ -90,10 +90,13 @@
 
 		<div class="form-group">
 			<label for="sourceDetails">Referral Details:</label>
-			<textarea class="form-control" rows="2" id="sourceDetails"></textarea>
+			<textarea class="form-control" rows="2" id="sourceDetails">{{sourceDetails}}</textarea>
 		</div>
-
-    	<button id="submit" type="submit" class="">Create Lead</button>
+		{{#if _id}}
+    	<button id="submit" type="submit" class="">Update FP</button>
+    	{{else}}
+    	<button id="submit" type="submit" class="">Create FP</button>
+    	{{/if}}
 	</form>
 </template>
 
