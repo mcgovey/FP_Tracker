@@ -73,7 +73,6 @@ if (Meteor.isClient) {
           };
 
       Meteor.call("updateLead", documentId, leadText);
-      }
     }
         
   });
