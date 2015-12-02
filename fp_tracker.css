@@ -1,20 +1,43 @@
 /* CSS declarations go here */
-/*#loginButtons {
-	float: right;
-}*/
 
-.btn {
-	margin: 10px;
-	padding: 25px;
-	background-color: rgb(240,240,240);
-	float: left;
-	text-align: center;
-	width: 140px;
+.bigBtn {
+	margin: 	10px;
+	/*padding: 	20px;*/
+	/*background-color: rgb(240,240,240);*/
+	float: 		left;
+	/*text-align: center;*/
+	width: 		140px;
 }
 #newLeadForm {
-    width: 300px;
+    width: 		300px;
     background-color: rgb(220,220,220);
-    padding: 20px;
+    padding: 	20px;
     /*text-align: center;*/
-    margin: auto;
+    margin: 	auto;
+}
+
+/*#viewLeadsTable {
+	width: 		800px;
+	margin: 	10px 10px 50px 10px;
+}*/
+
+.pageLabel{
+	margin: 	20px;
+	text-align: center;
+}
+
+#loginButtons a#login-sign-in-link {
+	color: white;
+}
+
+div.clickView{
+	height: 100%;
+	width: 100%;
+}
+
+a.clickView {
+	color: inherit;
+}
+a.clickView:hover {
+	text-decoration: inherit;
 }

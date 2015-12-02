@@ -12,49 +12,52 @@
 	    <div>
 		    <ul class="nav navbar-nav">
 		        <li><a href="{{pathFor route='home'}}">Home</a></li>
-		        <li><a href="{{pathFor route='viewLeads'}}">View all Leads</a></li>
+		        <!-- <li><a href="{{pathFor route='viewLeads'}}">View all Leads</a></li> -->
 		        <li><a href="{{pathFor route='addLead'}}">Add a New Lead</a></li>
 		        <li><a href="{{pathFor route='searchLead'}}">Search for a Lead</a></li>
 		    </ul>
 		</div>
+		<div id="loginButtons" class="btn btn-primary dropdown-toggle nav">{{> loginButtons}}</div>
 	</nav>
 </template>
 
 <template name="home">
-    <div id="loginButtons">{{> loginButtons}}</div>
-    <p>Welcome to FP Tracker {{currentUser}}.</p>
+    
+    <p>Welcome to FP Tracker {{currentUser}}</p>
 
-    <a href="{{pathFor route='addLead'}}"><div class="btn">Add a Lead</div></a>
-    <a href="{{pathFor route='searchLead'}}"><div class="btn">Search for a Lead</div></a>
+    {{> leads}}
 </template>
 
 <template name="leads">
-    
-    <table>
-    	<tr>
-    		<th>Name</th>
-    		<th>Inquiry Date</th>
-    		<th>Source</th>
-    		<th>View/Edit</th>
-    	</tr>
-    	{{#each lead}}
-    		{{> leadItem}}
-    	{{/each}}
-    </table>
-     {{> addLead}}
+    <div class="container">
+	    <table id="viewLeadsTable" class="table table-bordered table-hover">
+	    	<tr>
+	    		<th>Name</th>
+	    		<th>Inquiry Date</th>
+	    		<th>Source</th>
+	    		<th>View/Edit</th>
+	    	</tr>
+	    	{{#each lead}}
+	    		{{> leadItem}}
+	    	{{/each}}
+	    </table>
+	</div>
+    <a href="{{pathFor route='addLead'}}"><div class="bigBtn btn btn-primary">Add a Lead</div></a>
+    <a href="{{pathFor route='searchLead'}}"><div class="bigBtn btn btn-primary">Search for a Lead</div></a>
 </template>
 
 <template name="leadItem">
+	
 	<tr>
-		<td>{{name}}</td>
-		<td>{{inquiryDate}}</td>
-		<td>{{source}}</td>
-		<a href="lead/{{_id}}"><td>View/Edit</td></a>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{name}} 			</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{inquiryDate}} 	</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{source}} 			</div></a></td>
+		<td>Delete</td>
     </tr>
-</template>
+    </template>
 
 <template name="addLead">
-	<h1>Add a New Lead</h1>
+	<h2 class="pageLabel">Add a New Potential Foster Parent</h2>
 	{{> leadForm}}	
 </template>
 
@@ -68,30 +71,34 @@
 		  <label for="leadInquiryDate">Date of Inquiry Origination:</label>
 		  <input type="date" name="leadInquiryDate" value={{inquiryDate}} class="todayDefault form-control" id="leadInquiryDate">
 		</div>
-		
-		<!-- <input type="radio" value="Google" name="leadSource" {{checked}}>Google
-		<input type="radio" value="ACS" name="leadSource">ACS
-		<input type="radio" value="AdCampaign" name="leadSource">Ad Campaign
-		<input type="radio" value="Other" name="leadSource">Unknown/Other
-		<br/> -->
 		<div class="form-group">
-		  <label for="leadSource1">Select a Source:</label>
-		  <select class="form-control" name= "leadSource" id="leadSource">
-		    <option>ACS</option>
-		    <option>Google</option>
-		    <option>Ad Campaign</option>
-		    <option>Unknown/Other</option>
-		  </select>
-		  {{setDropdownValue}}
+			<label for="leadSource1">Referral Source:</label>
+			<select class="form-control" name= "leadSource" id="leadSource">
+				<option>---Select One---</option>
+				<option>Google</option>
+				<option>ACS</option>
+				<option>Ad Campaign</option>
+				<option>Word of Mouth</option>
+				<option>Foster Parent</option>
+				<option>Independent Recruitment Event</option>
+				<option>ACS-Sponsored Recruitment Event</option>
+				<option>Child-specific</option>
+				<option>Unknown/Other</option>
+			</select>
+			{{setDropdownValue}}
 		</div>
 
+		<div class="form-group">
+			<label for="sourceDetails">Referral Details:</label>
+			<textarea class="form-control" rows="2" id="sourceDetails"></textarea>
+		</div>
 
     	<button id="submit" type="submit" class="">Create Lead</button>
 	</form>
 </template>
 
 <template name="editLead">
-	<h1>Edit this lead</h1>
+	<h2 class="pageLabel">Edit this potential foster parent</h2>
 	{{> leadForm}}
 </template>
 

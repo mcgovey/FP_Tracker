@@ -47,27 +47,34 @@ if (Meteor.isClient) {
       $('.todayDefault').val(new Date().toDateInputValue());
   });
   Template.addLead.events({
-    // 'keyup': function(event){
-    //   if(event.which == 13 || event.which == 27){
-    //     $(event.target).blur();
-    //   } else {
-    //     var documentId = this._id;
-    //     var todoItem = $(event.target).val();
-    //     Leads.update({ _id: documentId }, {$set: { name: leadName }});
-    //   }
-    // },
+
     
     "submit": function (event) {
         event.preventDefault();
         var leadText  = {
-                          name        : $('[name="leadName"]').val(),
-                          inquiryDate : $('[name="leadInquiryDate"]').val(),
-                          source      : $('[name="leadSource"]').val()
+                          name          : $('[name="leadName"]').val(),
+                          inquiryDate   : $('[name="leadInquiryDate"]').val(),
+                          source        : $('[name="leadSource"]').val(),
+                          sourceDetails : $('[name="sourceDetails"]').val()
                         };
+
         // console.log('leadText:',leadText);
         Meteor.call("addLead",leadText);
         $('#newLeadForm')[0].reset();
     }
+  });
+  Template.editLead.events({
+    'keyup': function(event){
+      console.log('this.id',this._id);
+      if(event.which == 13 || event.which == 27){
+        $(event.target).blur();
+      } else {
+        var documentId = this._id;
+        var todoItem = $(event.target).val();
+        // Leads.update({ _id: documentId }, {$set: { name: leadName }});
+      }
+    }
+        
   });
 }
 Meteor.methods({
@@ -77,20 +84,24 @@ Meteor.methods({
     //   throw new Meteor.Error("not-authorized");
     // }
     Leads.insert({
-      name        : text.name,
-      inquiryDate : text.inquiryDate,
-      source      : text.source,
-      createdAt   : new Date()
+      name          : text.name,
+      inquiryDate   : text.inquiryDate,
+      source        : text.source,
+      sourceDetails : text.sourceDetails,
+      createdAt     : new Date()
       // ,owner       : Meteor.userId(),
       // ownerEmail  : Meteor.user().emails[0].address
     });
+  },
+  updateLead: function (text) {
+
   }
 });
 
 
 if (Meteor.isServer) {
   Meteor.publish("leads", function () {
-    return Leads.find({});
+    return Leads.find({},{inquiryDate:-1});
   });
 }
 
