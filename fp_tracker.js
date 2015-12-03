@@ -2,8 +2,17 @@ Leads = new Mongo.Collection("leads");
 
 if (Meteor.isClient) {
   Meteor.subscribe("leads");
+//OnRender Activities
+  Template.addLead.onRendered(function() {
+      $('.todayDefault').val(new Date().toDateInputValue());
+  });
+  Template.leadForm.onRendered(function() {
+      var leadSource = Session.get('clickedSource');
+      // console.log('leadprint',leadSource);
+      $('#leadSource').val(leadSource);
+  });
 
-
+//Helpers
   Template.leads.helpers({
     'lead': function(){
       return Leads.find({}, {sort: {createdAt: -1}});
@@ -14,51 +23,35 @@ if (Meteor.isClient) {
   });
 
   Template.leadForm.helpers({
-      setDropdownValue: function(){
-        $('[name="leadSource"]').val(this.source);
-      }
-
-      // 'checked': function(){
-          
-      //     // var checkedVal = Leads.find({ _id: this._id }).fetch()[0].source;
-
-      //     // $('[name="leadSource"] [val='+checkedVal+']').checked
-      //     console.log("this",this);
-      //     // var isCompleted = this.checked;
-      //     // if(isCompleted){
-      //     //     return "checked";
-      //     // } else {
-      //     //     return "";
-      //     // }
-
-      //     //:checked
-
-      //     // $('[name="leadSource"]:input:radio').each(function() {
-      //     //   var checked = this.value;
-      //     //   console.log('values',checked);
-      //     // });
-      //     // return 'checked';
-      // }
+    categories: function(){
+        return ["Google", "ACS", "Ad Campaign", "Word of Mouth", "Foster Parent", 
+                "Independent Recruitment Event", "ACS-Sponsored Recruitment Event", 
+                "Child-specific", "Unknown/Other"]
+    }
   });
 
+//   Template.leadForm.helpers({
+//   log: function () {
+//     console.log(this);
+//   }
+// });
 
-
-  Template.addLead.onRendered(function() {
-      $('.todayDefault').val(new Date().toDateInputValue());
-  });
+//Events
   Template.addLead.events({
     "submit": function (event) {
-        event.preventDefault();
-        var leadText  = {
-            name          : $('[name="leadName"]').val(),
-            inquiryDate   : $('[name="leadInquiryDate"]').val(),
-            source        : $('[name="leadSource"]').val(),
-            sourceDetails : $('[name="sourceDetails"]').val()
-          };
+      event.preventDefault();
+      var leadText  = {
+          name          : $('[name="leadName"]').val(),
+          inquiryDate   : $('[name="leadInquiryDate"]').val(),
+          source        : $('[name="leadSource"]').val(),
+          sourceDetails : $('[name="sourceDetails"]').val()
+        };
 
-        // console.log('leadText:',leadText);
-        Meteor.call("addLead",leadText);
+      var returnMsg = Meteor.call("addLead",leadText);
+
+      // if(returnMsg='success'){
         $('#newLeadForm')[0].reset();
+      // };
     }
   });
   Template.editLead.events({
@@ -72,9 +65,18 @@ if (Meteor.isClient) {
             sourceDetails : $('[name="sourceDetails"]').val()
           };
 
-      Meteor.call("updateLead", documentId, leadText);
+      var returnMsg = Meteor.call("updateLead", documentId, leadText);
+      if(returnMsg='success'){
+        Router.go('viewLeads')
+      };
     }
         
+  });
+  Template.leads.events({
+    'click a.clickView': function(event) {
+      // console.log('clicked:',this.source);
+      Session.set('clickedSource',this.source);
+    }
   });
 }
 Meteor.methods({
@@ -103,6 +105,8 @@ Meteor.methods({
       // ownerEmail  : Meteor.user().emails[0].address
       }}
     );
+    //still needs error handling
+    return 'success';
   }
 });
 

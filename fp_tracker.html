@@ -35,6 +35,7 @@
 	    		<th>Name</th>
 	    		<th>Inquiry Date</th>
 	    		<th>Source</th>
+	    		<th>Source Details</th>
 	    		<th>Delete</th>
 	    	</tr>
 	    	{{#each lead}}
@@ -52,6 +53,7 @@
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{name}} 			</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{inquiryDate}} 	</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{source}} 			</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{sourceDetails}}	</div></a></td>
 		<td><a href="#" class="delete-lead">Delete</a></td>
     </tr>
     </template>
@@ -67,31 +69,27 @@
 		  <label for="name">Name:</label>
 		  <input type="text" value={{name}} name="leadName" class="form-control" id="name">
 		</div>
+
 		<div class="form-group">
 		  <label for="leadInquiryDate">Date of Inquiry Origination:</label>
 		  <input type="date" name="leadInquiryDate" value={{inquiryDate}} class="todayDefault form-control" id="leadInquiryDate">
 		</div>
+
 		<div class="form-group">
-			<label for="leadSource1">Referral Source:</label>
+			<label for="leadSource">Referral Source: </label>
 			<select class="form-control" name= "leadSource" id="leadSource">
-				<option>---Select One---</option>
-				<option>Google</option>
-				<option>ACS</option>
-				<option>Ad Campaign</option>
-				<option>Word of Mouth</option>
-				<option>Foster Parent</option>
-				<option>Independent Recruitment Event</option>
-				<option>ACS-Sponsored Recruitment Event</option>
-				<option>Child-specific</option>
-				<option>Unknown/Other</option>
+			    <option disabled="disabled" selected="selected">Please Select</option>
+			    {{#each categories}}
+			        <option value="{{this}}">{{this}}</option>
+			    {{/each}}
 			</select>
-			{{setDropdownValue}}
 		</div>
 
 		<div class="form-group">
 			<label for="sourceDetails">Referral Details:</label>
-			<textarea class="form-control" rows="2" id="sourceDetails">{{sourceDetails}}</textarea>
+			<textarea class="form-control" rows="2" name="sourceDetails" id="sourceDetails" value="{{sourceDetails}}"></textarea>
 		</div>
+
 		{{#if _id}}
     	<button id="submit" type="submit" class="">Update FP</button>
     	{{else}}
@@ -103,6 +101,7 @@
 <template name="editLead">
 	<h2 class="pageLabel">Edit this potential foster parent</h2>
 	{{> leadForm}}
+	<!-- {{setDropdownValue this}} -->
 </template>
 
 <template name="searchLead">

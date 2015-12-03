@@ -26,7 +26,8 @@
 	text-align: center;
 }
 
-#loginButtons a#login-sign-in-link {
+a#login-sign-in-link,
+a#login-name-link {
 	color: white;
 }
 
