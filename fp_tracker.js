@@ -8,7 +8,6 @@ if (Meteor.isClient) {
   });
   Template.leadForm.onRendered(function() {
       var leadSource = Session.get('clickedSource');
-      // console.log('leadprint',leadSource);
       $('#leadSource').val(leadSource);
   });
 
@@ -36,6 +35,15 @@ if (Meteor.isClient) {
 //   }
 // });
 
+  Template.editLead.helpers({
+      //helper if user directs to page without clicking from main
+      'setDropdownValue': function(){
+        $('#leadSource').val(this.source);
+      }
+  });
+
+
+
 //Events
   Template.addLead.events({
     "submit": function (event) {
@@ -49,9 +57,9 @@ if (Meteor.isClient) {
 
       var returnMsg = Meteor.call("addLead",leadText);
 
-      // if(returnMsg='success'){
+      if(returnMsg='success'){
         $('#newLeadForm')[0].reset();
-      // };
+      };
     }
   });
   Template.editLead.events({
@@ -73,8 +81,8 @@ if (Meteor.isClient) {
         
   });
   Template.leads.events({
+    //set session variable for source dropdown
     'click a.clickView': function(event) {
-      // console.log('clicked:',this.source);
       Session.set('clickedSource',this.source);
     }
   });
@@ -91,6 +99,8 @@ Meteor.methods({
       // ,owner       : Meteor.userId(),
       // ownerEmail  : Meteor.user().emails[0].address
     });
+    //needs error handling
+    return 'success';
   },
   updateLead: function (documentId, text) {
     Leads.update({ 
@@ -105,7 +115,7 @@ Meteor.methods({
       // ownerEmail  : Meteor.user().emails[0].address
       }}
     );
-    //still needs error handling
+    //needs error handling
     return 'success';
   }
 });
