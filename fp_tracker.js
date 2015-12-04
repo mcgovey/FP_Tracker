@@ -70,7 +70,11 @@ if (Meteor.isClient) {
             name          : $('[name="leadName"]').val(),
             inquiryDate   : $('[name="leadInquiryDate"]').val(),
             source        : $('[name="leadSource"]').val(),
-            sourceDetails : $('[name="sourceDetails"]').val()
+            sourceDetails : $('[name="sourceDetails"]').val(),
+            expectOrientDate : $('[name="leadExpectedOrientation"]').val(),
+            followupDate : $('[name="leadFollowupDate"]').val(),
+            orientAttendDate : $('[name="leadOrientAttendDate"]').val(),
+            appSubmitDate : $('[name="leadAppSubmitDate"]').val()
           };
 
       var returnMsg = Meteor.call("updateLead", documentId, leadText);
@@ -94,6 +98,10 @@ Meteor.methods({
       inquiryDate   : text.inquiryDate,
       source        : text.source,
       sourceDetails : text.sourceDetails,
+      expectOrientDate: text.expectOrientDate,
+      followupDate  : text.followupDate,
+      orientAttendDate: text.orientAttendDate,
+      appSubmitDate : text.appSubmitDate,
       lastMod       : new Date(),
       createdAt     : new Date()
       // ,owner       : Meteor.userId(),
@@ -110,6 +118,10 @@ Meteor.methods({
       inquiryDate   : text.inquiryDate,
       source        : text.source,
       sourceDetails : text.sourceDetails,
+      expectOrientDate: text.expectOrientDate,
+      followupDate  : text.followupDate,
+      orientAttendDate: text.orientAttendDate,
+      appSubmitDate : text.appSubmitDate,
       lastMod       : new Date()
       // ,owner       : Meteor.userId(),
       // ownerEmail  : Meteor.user().emails[0].address

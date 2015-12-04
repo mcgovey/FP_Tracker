@@ -32,10 +32,14 @@
     <div class="container">
 	    <table id="viewLeadsTable" class="table table-bordered table-hover">
 	    	<tr>
-	    		<th>Name</th>
+	    		<th>FP Name   </th>
 	    		<th>Inquiry Date</th>
 	    		<th>Source</th>
 	    		<th>Source Details</th>
+	    		<th>Expected Orientation Date</th>
+	    		<th>Followup Date</th>
+	    		<th>Orientation Attended Date</th>
+	    		<th>Application Submitted Date</th>
 	    		<th>Delete</th>
 	    	</tr>
 	    	{{#each lead}}
@@ -54,6 +58,10 @@
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{inquiryDate}} 	</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{source}} 			</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{sourceDetails}}	</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{expectOrientDate}}	</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{followupDate}}	</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{orientAttendDate}}	</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{appSubmitDate}}	</div></a></td>
 		<td><a href="#" class="delete-lead">Delete</a></td>
     </tr>
     </template>
@@ -88,6 +96,26 @@
 		<div class="form-group">
 			<label for="sourceDetails">Referral Details:</label>
 			<textarea class="form-control" rows="2" name="sourceDetails" id="sourceDetails" value="{{sourceDetails}}"></textarea>
+		</div>
+
+		<div class="form-group">
+		  <label for="leadExpectedOrientation">Date of Inquiry Origination:</label>
+		  <input type="date" name="leadExpectedOrientation" value={{expectOrientDate}} class="form-control" id="leadExpectedOrientation">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadFollowupDate">Date of Inquiry Origination:</label>
+		  <input type="date" name="leadFollowupDate" value={{followupDate}} class="form-control" id="leadFollowupDate">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadOrientAttendDate">Date of Inquiry Origination:</label>
+		  <input type="date" name="leadOrientAttendDate" value={{orientAttendDate}} class="form-control" id="leadOrientAttendDate">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadAppSubmitDate">Date of Inquiry Origination:</label>
+		  <input type="date" name="leadAppSubmitDate" value={{appSubmitDate}} class="form-control" id="leadAppSubmitDate">
 		</div>
 
 		{{#if _id}}
