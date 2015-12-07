@@ -23,12 +23,15 @@
 
 <template name="home">
     
-    <p>Welcome to FP Tracker {{currentUser}}</p>
+    <p>Welcome to FP Tracker {{log currentUser}}</p>
 
     {{> leads}}
 </template>
 
 <template name="leads">
+    <a href="{{pathFor route='addLead'}}"><div class="bigBtn btn btn-primary">Add a Lead</div></a>
+    <a href="{{pathFor route='searchLead'}}"><div class="bigBtn btn btn-primary">Search for a Lead</div></a>
+	<button id="exportAll" type="button" class="btnRawCSV btn-info btn-sm">ExportData</button>
     <div class="container">
 	    <table id="viewLeadsTable" class="table table-bordered table-hover">
 	    	<tr>
@@ -47,8 +50,6 @@
 	    	{{/each}}
 	    </table>
 	</div>
-    <a href="{{pathFor route='addLead'}}"><div class="bigBtn btn btn-primary">Add a Lead</div></a>
-    <a href="{{pathFor route='searchLead'}}"><div class="bigBtn btn btn-primary">Search for a Lead</div></a>
 </template>
 
 <template name="leadItem">
@@ -136,8 +137,8 @@
 	page to search for a lead
 </template>
 
-<template name="export">
+<!-- <template name="export">
   <h3>Export</h3>
   <p>To export your data, click the button below.</p>
   <button class="export-data btn btn-success" data-loading-text="Exporting...">Export Data</button>
-</template>
+</template> -->

@@ -42,3 +42,7 @@ a.clickView {
 a.clickView:hover {
 	text-decoration: inherit;
 }
+
+.btnRawCSV {
+	float: right;
+}

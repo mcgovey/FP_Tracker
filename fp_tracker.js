@@ -2,6 +2,14 @@ Leads = new Mongo.Collection("leads");
 
 if (Meteor.isClient) {
   Meteor.subscribe("leads");
+
+Template.home.helpers({
+  log: function () {
+    console.log(this);
+  }
+});
+
+
 //OnRender Activities
   Template.addLead.onRendered(function() {
       $('.todayDefault').val(new Date().toDateInputValue());
@@ -29,11 +37,7 @@ if (Meteor.isClient) {
     }
   });
 
-//   Template.leadForm.helpers({
-//   log: function () {
-//     console.log(this);
-//   }
-// });
+
 
   Template.editLead.helpers({
       //helper if user directs to page without clicking from main
@@ -49,11 +53,15 @@ if (Meteor.isClient) {
     "submit": function (event) {
       event.preventDefault();
       var leadText  = {
-          name          : $('[name="leadName"]').val(),
-          inquiryDate   : $('[name="leadInquiryDate"]').val(),
-          source        : $('[name="leadSource"]').val(),
-          sourceDetails : $('[name="sourceDetails"]').val()
-        };
+            name          : $('[name="leadName"]').val(),
+            inquiryDate   : $('[name="leadInquiryDate"]').val(),
+            source        : $('[name="leadSource"]').val(),
+            sourceDetails : $('[name="sourceDetails"]').val(),
+            expectOrientDate : $('[name="leadExpectedOrientation"]').val(),
+            followupDate : $('[name="leadFollowupDate"]').val(),
+            orientAttendDate : $('[name="leadOrientAttendDate"]').val(),
+            appSubmitDate : $('[name="leadAppSubmitDate"]').val()
+          };
 
       var returnMsg = Meteor.call("addLead",leadText);
 
@@ -84,6 +92,17 @@ if (Meteor.isClient) {
     }
         
   });
+  Template.leadItem.events({
+    'click .delete-lead': function(event){
+        event.preventDefault();
+        var documentId = this._id;
+        var confirm = window.confirm("Delete this record?");
+        if(confirm){
+            Leads.remove({ _id: documentId });
+        }
+    }
+  });
+
   Template.leads.events({
     //set session variable for source dropdown
     'click a.clickView': function(event) {
