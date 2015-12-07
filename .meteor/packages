@@ -21,3 +21,9 @@ iron:router
 accounts-password
 accounts-ui
 twbs:bootstrap
+meteorhacks:npm
+
+
+npm-container
+harrison:papa-parse
+pfafman:filesaver
