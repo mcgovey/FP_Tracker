@@ -16,11 +16,6 @@
     margin: 	auto;
 }
 
-/*#viewLeadsTable {
-	width: 		800px;
-	margin: 	10px 10px 50px 10px;
-}*/
-
 .pageLabel{
 	margin: 	20px;
 	text-align: center;
@@ -29,6 +24,9 @@
 a#login-sign-in-link,
 a#login-name-link {
 	color: white;
+}
+#loginButtons{
+	margin-left: 30px;
 }
 
 div.clickView{
@@ -45,4 +43,10 @@ a.clickView:hover {
 
 .btnRawCSV {
 	float: right;
+}
+
+#viewLeadsTable td,
+#viewLeadsTable th {
+	border: 1px solid #bbb;
+	padding: 2px;
 }

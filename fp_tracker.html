@@ -8,41 +8,45 @@
 	<nav class="navbar navbar-inverse">
 		<div class="navbar-header">
 	      <a class="navbar-brand" href="{{pathFor route='home'}}">FP Tracker</a>
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span> 
+	      </button>
 	    </div>
 	    <div>
-		    <ul class="nav navbar-nav">
+		    <ul id="myNavbar" class="nav navbar-nav collapse navbar-collapse">
 		        <li><a href="{{pathFor route='home'}}">Home</a></li>
 		        <!-- <li><a href="{{pathFor route='viewLeads'}}">View all Leads</a></li> -->
 		        <li><a href="{{pathFor route='addLead'}}">Add a New Lead</a></li>
 		        <li><a href="{{pathFor route='searchLead'}}">Search for a Lead</a></li>
 		    </ul>
 		</div>
-		<div id="loginButtons" class="btn btn-primary dropdown-toggle nav">{{> loginButtons}}</div>
+		<ul id="loginButtons" class="nav navbar-nav">{{> loginButtons}}</ul>
 	</nav>
 </template>
 
 <template name="home">
     
-    <p>Welcome to FP Tracker {{log currentUser}}</p>
+    <p>Welcome to FP Tracker <!-- {{log currentUser}} --></p>
 
     {{> leads}}
 </template>
 
 <template name="leads">
-    <a href="{{pathFor route='addLead'}}"><div class="bigBtn btn btn-primary">Add a Lead</div></a>
-    <a href="{{pathFor route='searchLead'}}"><div class="bigBtn btn btn-primary">Search for a Lead</div></a>
-	<button id="exportAll" type="button" class="btnRawCSV btn-info btn-sm">ExportData</button>
+	<div class="container">
+	    <a href="{{pathFor route='addLead'}}"><div class="bigBtn btn btn-primary">Add a Lead</div></a>
+	    <a href="{{pathFor route='searchLead'}}"><div class="bigBtn btn btn-primary">Search for a Lead</div></a>
+		<button id="exportAll" type="button" class="bigBtn btnRawCSV btn btn-info">ExportData</button>
+	</div>
     <div class="container">
-	    <table id="viewLeadsTable" class="table table-bordered table-hover">
+	    <table id="viewLeadsTable" class="table">
 	    	<tr>
-	    		<th>FP Name   </th>
+	    		<th>FP Name</th>
 	    		<th>Inquiry Date</th>
 	    		<th>Source</th>
-	    		<th>Source Details</th>
-	    		<th>Expected Orientation Date</th>
-	    		<th>Followup Date</th>
-	    		<th>Orientation Attended Date</th>
-	    		<th>Application Submitted Date</th>
+	    		<th>Application Status</th>
+	    		<th>Phone Number</th>
 	    		<th>Delete</th>
 	    	</tr>
 	    	{{#each lead}}
@@ -58,11 +62,8 @@
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{name}} 			</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{inquiryDate}} 	</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{source}} 			</div></a></td>
-		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{sourceDetails}}	</div></a></td>
-		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{expectOrientDate}}	</div></a></td>
-		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{followupDate}}	</div></a></td>
-		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{orientAttendDate}}	</div></a></td>
-		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{appSubmitDate}}	</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{appStatus}}	</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{phoneNum}}	</div></a></td>
 		<td><a href="#" class="delete-lead">Delete</a></td>
     </tr>
     </template>
@@ -86,7 +87,7 @@
 
 		<div class="form-group">
 			<label for="leadSource">Referral Source: </label>
-			<select class="form-control" name= "leadSource" id="leadSource">
+			<select class="form-control" name="leadSource" id="leadSource">
 			    <option disabled="disabled" selected="selected">Please Select</option>
 			    {{#each categories}}
 			        <option value="{{this}}">{{this}}</option>
@@ -100,29 +101,86 @@
 		</div>
 
 		<div class="form-group">
-		  <label for="leadExpectedOrientation">Date of Inquiry Origination:</label>
+		  <label for="leadExpectedOrientation">Date of Expected Orientation:</label>
 		  <input type="date" name="leadExpectedOrientation" value={{expectOrientDate}} class="form-control" id="leadExpectedOrientation">
 		</div>
 
 		<div class="form-group">
-		  <label for="leadFollowupDate">Date of Inquiry Origination:</label>
+		  <label for="leadFollowupDate">Date for Followup:</label>
 		  <input type="date" name="leadFollowupDate" value={{followupDate}} class="form-control" id="leadFollowupDate">
 		</div>
 
 		<div class="form-group">
-		  <label for="leadOrientAttendDate">Date of Inquiry Origination:</label>
+		  <label for="leadOrientAttendDate">Date Orientation Attended:</label>
 		  <input type="date" name="leadOrientAttendDate" value={{orientAttendDate}} class="form-control" id="leadOrientAttendDate">
 		</div>
 
 		<div class="form-group">
-		  <label for="leadAppSubmitDate">Date of Inquiry Origination:</label>
+		  <label for="leadAppSubmitDate">Date of Application Submitted:</label>
 		  <input type="date" name="leadAppSubmitDate" value={{appSubmitDate}} class="form-control" id="leadAppSubmitDate">
 		</div>
 
+		<div class="form-group">
+			<label for="leadAppStatus">Application Status: </label>
+			<select class="form-control" name="leadAppStatus" id="leadAppStatus">
+			    <option disabled="disabled" selected="selected">Please Select</option>
+			    {{#each appStatus}}
+			        <option value="{{this}}">{{this}}</option>
+			    {{/each}}
+			</select>
+		</div>
+
+<!-- Need to be added  -->
+		<div class="form-group">
+		  <label for="leadAppDecisionDate">Date of Application Decision:</label>
+		  <input type="date" name="leadAppDecisionDate" value={{appDecisionDate}} class="form-control" id="leadAppDecisionDate">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadReasonDiscont">Reason for Discontinuation:</label>
+		  <input type="text" value={{reasonDiscont}} name="leadReasonDiscont" class="form-control" id="leadReasonDiscont">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadHomeOpenDate">Date Home Opened:</label>
+		  <input type="date" name="leadHomeOpenDate" value={{homeOpenDate}} class="form-control" id="leadHomeOpenDate">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadHomeOpenNotes">Home Opened Notes:</label>
+		  <input type="text" value={{homeOpenNotes}} name="leadHomeOpenNotes" class="form-control" id="leadHomeOpenNotes">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadPhoneNum">Phone Number:</label>
+		  <input type="tel" value={{phoneNum}} name="leadPhoneNum" class="form-control" id="leadPhoneNum">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadEmail">Email Address:</label>
+		  <input type="email" value={{email}} name="leadEmail" class="form-control" id="leadEmail">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadStreetAddress">Street Address:</label>
+		  <input type="text" value={{streetAddress}} name="leadStreetAddress" class="form-control" id="leadStreetAddress">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadBorough">Borough:</label>
+		  <input type="text" value={{borough}} name="leadBorough" class="form-control" id="leadBorough">
+		</div>
+
+		<div class="form-group">
+		  <label for="leadZipCode">Zip Code:</label>
+		  <input type="text" value={{zipCode}} name="leadZipCode" class="form-control" id="leadZipCode">
+		</div>
+
+<!--  -->
 		{{#if _id}}
-    	<button id="submit" type="submit" class="">Update FP</button>
+    		<button id="submit" type="submit" class="btn-primary btn-block updateLeadBtn">Update FP</button>
     	{{else}}
-    	<button id="submit" type="submit" class="">Create FP</button>
+    		<button id="submit" type="submit" class="btn-primary btn-block createLeadBtn">Create FP Record</button>
     	{{/if}}
 	</form>
 </template>
@@ -130,7 +188,8 @@
 <template name="editLead">
 	<h2 class="pageLabel">Edit this potential foster parent</h2>
 	{{> leadForm}}
-	{{setDropdownValue}}
+	{{setDropdownValue 'leadAppStatus' this.appStatus}}
+	{{setDropdownValue 'leadSource' this.source}}
 </template>
 
 <template name="searchLead">
