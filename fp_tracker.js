@@ -3,11 +3,11 @@ Leads = new Mongo.Collection("leads");
 if (Meteor.isClient) {
   Meteor.subscribe("leads");
 
-// Template.home.helpers({
-//   log: function () {
-//     console.log(this);
-//   }
-// });
+Template.leadForm.helpers({
+  log: function () {
+    console.log(this);
+  }
+});
 
 
 //OnRender Activities
@@ -203,6 +203,14 @@ Meteor.methods({
 if (Meteor.isServer) {
   Meteor.publish("leads", function () {
     return Leads.find({},{inquiryDate:-1});
+  });
+
+  Meteor.startup(function() {
+    return Meteor.methods({
+      removeAllPosts: function() {
+        return Leads.remove({});
+      }
+    });
   });
 }
 

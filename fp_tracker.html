@@ -28,7 +28,7 @@
 
 <template name="home">
     
-    <p>Welcome to FP Tracker <!-- {{log currentUser}} --></p>
+    <p>Welcome to FP Tracker</p>
 
     {{> leads}}
 </template>
@@ -74,6 +74,7 @@
 </template>
 
 <template name="leadForm">
+	{{log}}
 	<form id="newLeadForm">
 		<div class="form-group">
 		  <label for="name">Name:</label>
@@ -194,6 +195,7 @@
 
 <template name="searchLead">
 	page to search for a lead
+	{{updateDoc}}
 </template>
 
 <!-- <template name="export">
