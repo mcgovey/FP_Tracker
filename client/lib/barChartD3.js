@@ -25,7 +25,13 @@ Template.fpSourceChart.onRendered( function(){
 		// if(sortModifier && sortModifier.sort)
 		// 	modifier.sort = sortModifier.sort;
 		
-		var dataset = Leads.find({},{source: 1}).fetch();//,modifier
+		// var dataset = Leads.find({},{fields: {source: 1}}).fetch();//,modifier
+
+		var dataset = Leads.aggregate([
+		  {$group: {_id: "source", source: {$count: "$source"}}}
+		]);
+
+		console.log(dataset);
 
 		//Update scale domains
 		xScale.domain(d3.range(dataset.length));

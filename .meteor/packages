@@ -27,3 +27,5 @@ npm-container
 pfafman:filesaver
 harrison:papa-parse
 meteorhacks:npm
+d3js:d3
+meteorhacks:aggregate
