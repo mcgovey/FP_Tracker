@@ -1,13 +1,16 @@
 Leads = new Mongo.Collection("leads");
+Calls = new Mongo.Collection("callLog");
 
 if (Meteor.isClient) {
   Meteor.subscribe("leads");
+  Meteor.subscribe("theCallLog");
 
-Template.leadForm.helpers({
-  log: function () {
-    console.log(this);
-  }
-});
+
+// Template.leadForm.helpers({
+//   log: function () {
+//     console.log(this);
+//   }
+// });
 
 
 //OnRender Activities
@@ -198,19 +201,4 @@ Meteor.methods({
     Leads.remove({ _id: documentId });
   }
 });
-
-
-if (Meteor.isServer) {
-  Meteor.publish("leads", function () {
-    return Leads.find({},{inquiryDate:-1});
-  });
-
-  Meteor.startup(function() {
-    return Meteor.methods({
-      removeAllPosts: function() {
-        return Leads.remove({});
-      }
-    });
-  });
-}
 

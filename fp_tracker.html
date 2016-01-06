@@ -17,9 +17,9 @@
 	    <div>
 		    <ul id="myNavbar" class="nav navbar-nav collapse navbar-collapse">
 		        <li><a href="{{pathFor route='home'}}">Home</a></li>
-		        <!-- <li><a href="{{pathFor route='viewLeads'}}">View all Leads</a></li> -->
+		        <li><a href="{{pathFor route='analysis'}}">Analysis</a></li>
 		        <li><a href="{{pathFor route='addLead'}}">Add a New Lead</a></li>
-		        <li><a href="{{pathFor route='searchLead'}}">Search for a Lead</a></li>
+		        <!-- <li><a href="{{pathFor route='searchLead'}}">Search for a Lead</a>< -->/li>
 		    </ul>
 		</div>
 		<ul id="loginButtons" class="nav navbar-nav">{{> loginButtons}}</ul>
@@ -47,6 +47,7 @@
 	    		<th>Source</th>
 	    		<th>Application Status</th>
 	    		<th>Phone Number</th>
+	    		<th>Call History</th>
 	    		<th>Delete</th>
 	    	</tr>
 	    	{{#each lead}}
@@ -62,8 +63,9 @@
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{name}} 			</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{inquiryDate}} 	</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{source}} 			</div></a></td>
-		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{appStatus}}	</div></a></td>
-		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{phoneNum}}	</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{appStatus}}		</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{phoneNum}}		</div></a></td>
+		<td><a href="callHistory/{{_id}}" class="">Call History</a></td>
 		<td><a href="#" class="delete-lead">Delete</a></td>
     </tr>
     </template>
@@ -74,7 +76,7 @@
 </template>
 
 <template name="leadForm">
-	{{log}}
+	<!-- {{log}} -->
 	<form id="newLeadForm">
 		<div class="form-group">
 		  <label for="name">Name:</label>
@@ -131,7 +133,6 @@
 			</select>
 		</div>
 
-<!-- Need to be added  -->
 		<div class="form-group">
 		  <label for="leadAppDecisionDate">Date of Application Decision:</label>
 		  <input type="date" name="leadAppDecisionDate" value={{appDecisionDate}} class="form-control" id="leadAppDecisionDate">
@@ -177,7 +178,6 @@
 		  <input type="text" value={{zipCode}} name="leadZipCode" class="form-control" id="leadZipCode">
 		</div>
 
-<!--  -->
 		{{#if _id}}
     		<button id="submit" type="submit" class="btn-primary btn-block updateLeadBtn">Update FP</button>
     	{{else}}
@@ -196,6 +196,10 @@
 <template name="searchLead">
 	page to search for a lead
 	{{updateDoc}}
+</template>
+
+<template name="upcomingCalls">
+
 </template>
 
 <!-- <template name="export">

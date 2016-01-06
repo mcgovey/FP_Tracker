@@ -1,0 +1,32 @@
+<template name="newCall">
+	callpage
+	{{_id}}
+	{{> callForm}}
+</template>
+
+<template name="editCall">
+	callpage
+	{{> callForm}}
+</template>
+
+<template name="callForm">
+	<form id="callFormID">
+
+		{{#if _id}}
+    		<button id="submit" type="submit" class="btn-primary btn-block updateLeadBtn">Update FP</button>
+    	{{else}}
+    		<button id="submit" type="submit" class="btn-primary btn-block createLeadBtn">Create FP Record</button>
+    	{{/if}}
+    </form>
+</template>
+
+<template name="callHistory">
+	<div class="container">
+		{{#if _id}}
+		ID present
+		{{else}}
+		call present
+		{{/if}}
+		<a href="../newCall/{{fpID}}"><div class="btn btn-lg btn-primary">Add a New Call Record</div></a>
+	</div>
+</template>
