@@ -1,137 +1,146 @@
 
-
 Template.fpSourceChart.onRendered( function(){
   	this.subscribe('MatchPointMetrics');
-	//Width and height
-	var w = 600;
-	var h = 250;
-	
-	var xScale = d3.scale.ordinal()
-					.rangeRoundBands([0, w], 0.05);
 
-	var yScale = d3.scale.linear()
-					.range([0, h]);
-	
-	//Define key function, to be used when binding data
-	var key = function(d) {
-		return d._id;
-	};
-	
+	//Width and height
+	var margin = {top: 20, right: 20, bottom: 30, left: 40},
+	    width = 960 - margin.left - margin.right,
+	    height = 500 - margin.top - margin.bottom;
+
+	//set x scale
+	var x = d3.scale.ordinal()
+	    .rangeRoundBands([0, width], .1);
+
+	//set y scale
+	var y = d3.scale.linear()
+	    .range([height, 0]);
+
+	// create x axis
+	var xAxis = d3.svg.axis()
+	    .scale(x)
+	    .orient("bottom");
+
+	// create y axis
+	var yAxis = d3.svg.axis()
+	    .scale(y)
+	    .orient("left")
+	    .ticks(10, "%");
+
 	//Create SVG element
-	var svg = d3.select("#barChart")
-				.attr("width", w)
-				.attr("height", h);
+	var chart = d3.select("#barChart")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom)
+	  .append("g")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 
 	Deps.autorun(function(){
-		// var modifier = {fields:{value:1}};
-		// var sortModifier = Session.get('barChartSortModifier');
-		// if(sortModifier && sortModifier.sort)
-		// 	modifier.sort = sortModifier.sort;
-		
-		// var dataset = Leads.find({},{fields: {source: 1}}).fetch();//,modifier
 
-		var dataset = MatchPointMetrics.find({}).fetch();
+		var data = MatchPointMetrics.find({}).fetch();
+		console.log('data',data);
 
-		// console.log('dataset', dataset);
+		x.domain(data.map(function(d) { return d._id; }));
+		y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
-		//Update scale domains
-		xScale.domain(d3.range(dataset.length));
-		yScale.domain([0, d3.max(dataset, function(d) { return d.value; })]);
+		chart.append("g")
+		  .attr("class", "x axis")
+		  .attr("transform", "translate(0," + height + ")")
+		  .call(xAxis);
 
-		//Select…
-		var bars = svg.selectAll("rect")
-			.data(dataset, key);
-		
-		//Enter…
-		bars.enter()
-			.append("rect")
-			.attr("x", w)
-			.attr("y", function(d) {
-				// console.log('d',d);
-				// console.log('d.value',d.value);
-				// console.log('yScale(d.value)',yScale(d.value));
-				return h - yScale(d.value);
-			})
-			.attr("width", xScale.rangeBand())
-			.attr("height", function(d) {
-				return yScale(d.value);
-			})
-			.attr("fill", function(d) {
-				return "rgb(0, 0, " + (d.value * 10) + ")";
-			})
-			.attr("data-id", function(d){
-				return d._id;
-			});
+		chart.append("g")
+		  .attr("class", "y axis")
+		  .call(yAxis)
+		.append("text")
+		  .attr("transform", "rotate(-90)")
+		  .attr("y", 6)
+		  .attr("dy", ".71em")
+		  .style("text-anchor", "end")
+		  .text("Frequency");
+
+		chart.selectAll(".bar")
+		  .data(data)
+		.enter().append("rect")
+		  .attr("class", "bar")
+		  .attr("x", function(d) { return x(d._id); })
+		  .attr("width", x.rangeBand())
+		  .attr("y", function(d) { return y(d.value); })
+		  .attr("height", function(d) { return height - y(d.value); });
+
+		var bar = chart.selectAll(".bar");
 
 		//Update…
-		bars.transition()
-			// .delay(function(d, i) {
-			// 	return i / dataset.length * 1000;
-			// }) // this delay will make transistions sequential instead of paralle
-			.duration(500)
-			.attr("x", function(d, i) {
-				return xScale(i);
-			})
-			.attr("y", function(d) {
-				return h - yScale(d.value);
-			})
-			.attr("width", xScale.rangeBand())
-			.attr("height", function(d) {
-				return yScale(d.value);
-			}).attr("fill", function(d) {
-				return "rgb(0, 0, " + (d.value * 10) + ")";
-			});
+		// bar.transition()
+		// 	.delay(function(d, i) {
+		// 		return i / data.length * 1000;
+		// 	}) // this delay will make transistions sequential instead of paralle
+		// 	.duration(500)
+		// 	.attr("x", function(d, i) {
+		// 		return x(i);
+		// 	})
+		// 	.attr("y", function(d) {
+		// 		return height - y(d.value);
+		// 	})
+		// 	.attr("width", x.rangeBand())
+		// 	.attr("height", function(d) {
+		// 		return y(d.value);
+		// 	}).attr("fill", function(d) {
+		// 		return "rgb(0, 0, " + (d.value * 10) + ")";
+		// 	});
 
 		//Exit…
-		bars.exit()
-			.transition()
-			.duration(500)
-			.attr("x", -xScale.rangeBand())
-			.remove();
+		// bar.exit()
+		// 	.transition()
+		// 	.duration(500)
+		// 	.attr("x", -x.rangeBand())
+		// 	.remove();
 
 
 
 		//Update all labels
 
-		//Select…
-		var labels = svg.selectAll("text")
-			.data(dataset, key);
+		// //Select…
+		// var labels = svg.selectAll("text")
+		// 	.data(dataset, key);
 		
-		//Enter…
-		labels.enter()
-			.append("text")
-			.text(function(d) {
-				return d.value;
-			})
-			.attr("text-anchor", "middle")
-			.attr("x", w)
-			.attr("y", function(d) {
-				return h - yScale(d.value) + 14;
-			})						
-		   .attr("font-family", "sans-serif")
-		   .attr("font-size", "11px")
-		   .attr("fill", "white");
+		// //Enter…
+		// labels.enter()
+		// 	.append("text")
+		// 	.text(function(d) {
+		// 		return d.value;
+		// 	})
+		// 	.attr("text-anchor", "middle")
+		// 	.attr("x", width)
+		// 	.attr("y", function(d) {
+		// 		return h - yScale(d.value) + 14;
+		// 	})						
+		//    .attr("font-family", "sans-serif")
+		//    .attr("font-size", "11px")
+		//    .attr("fill", "white");
 
-		//Update…
-		labels.transition()
-			// .delay(function(d, i) {
-			// 	return i / dataset.length * 1000;
-			// }) // this delay will make transistions sequential instead of paralle
-			.duration(500)
-			.attr("x", function(d, i) {
-				return xScale(i) + xScale.rangeBand() / 2;
-			}).attr("y", function(d) {
-				return h - yScale(d.value) + 14;
-			}).text(function(d) {
-				return d.value;
-			});
+		// //Update…
+		// labels.transition()
+		// 	// .delay(function(d, i) {
+		// 	// 	return i / dataset.length * 1000;
+		// 	// }) // this delay will make transistions sequential instead of paralle
+		// 	.duration(500)
+		// 	.attr("x", function(d, i) {
+		// 		return xScale(i) + xScale.rangeBand() / 2;
+		// 	}).attr("y", function(d) {
+		// 		return h - yScale(d.value) + 14;
+		// 	}).text(function(d) {
+		// 		return d.value;
+		// 	});
 
-		//Exit…
-		labels.exit()
-			.transition()
-			.duration(500)
-			.attr("x", -xScale.rangeBand())
-			.remove();
+		// //Exit…
+		// labels.exit()
+		// 	.transition()
+		// 	.duration(500)
+		// 	.attr("x", -xScale.rangeBand())
+		// 	.remove();
 
 	});
+	function type(d) {
+	  d.value = +d.value; // coerce to number
+	  return d;
+	}
 });
