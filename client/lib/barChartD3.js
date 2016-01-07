@@ -24,7 +24,8 @@ Template.fpSourceChart.onRendered( function(){
 	var yAxis = d3.svg.axis()
 	    .scale(y)
 	    .orient("left")
-	    .ticks(10, "%");
+	    // .ticks(10, "%")
+	    ;
 
 	//Create SVG element
 	var chart = d3.select("#barChart")
@@ -37,7 +38,7 @@ Template.fpSourceChart.onRendered( function(){
 	Deps.autorun(function(){
 
 		var data = MatchPointMetrics.find({}).fetch();
-		console.log('data',data);
+		// console.log('data',data);
 
 		x.domain(data.map(function(d) { return d._id; }));
 		y.domain([0, d3.max(data, function(d) { return d.value; })]);
@@ -45,7 +46,9 @@ Template.fpSourceChart.onRendered( function(){
 		chart.append("g")
 		  .attr("class", "x axis")
 		  .attr("transform", "translate(0," + height + ")")
-		  .call(xAxis);
+		  .call(xAxis)
+		.selectAll(".tick text")
+		  .call(wrap, x.rangeBand());
 
 		chart.append("g")
 		  .attr("class", "y axis")
@@ -55,37 +58,34 @@ Template.fpSourceChart.onRendered( function(){
 		  .attr("y", 6)
 		  .attr("dy", ".71em")
 		  .style("text-anchor", "end")
-		  .text("Frequency");
+		  // .text("Frequency")
+		  ;
 
 		chart.selectAll(".bar")
 		  .data(data)
 		.enter().append("rect")
 		  .attr("class", "bar")
-		  .attr("x", function(d) { return x(d._id); })
-		  .attr("width", x.rangeBand())
-		  .attr("y", function(d) { return y(d.value); })
-		  .attr("height", function(d) { return height - y(d.value); });
+		  // .attr("x", function(d) { return x(d._id); })
+		  // .attr("width", x.rangeBand())
+		  // .attr("y", function(d) { return y(d.value); })
+		  // .attr("height", function(d) { return height - y(d.value); })
+		  ;
 
 		var bar = chart.selectAll(".bar");
 
-		//Update…
-		// bar.transition()
-		// 	.delay(function(d, i) {
-		// 		return i / data.length * 1000;
-		// 	}) // this delay will make transistions sequential instead of paralle
-		// 	.duration(500)
-		// 	.attr("x", function(d, i) {
-		// 		return x(i);
-		// 	})
-		// 	.attr("y", function(d) {
-		// 		return height - y(d.value);
-		// 	})
-		// 	.attr("width", x.rangeBand())
-		// 	.attr("height", function(d) {
-		// 		return y(d.value);
-		// 	}).attr("fill", function(d) {
-		// 		return "rgb(0, 0, " + (d.value * 10) + ")";
-		// 	});
+		//Update the bars and draw width, height, and positioning
+		bar.transition()
+			.delay(function(d, i) {
+				return i / data.length * 1000;
+			}) // this delay will make transistions sequential instead of paralle
+			.duration(500)
+			.attr("x", function(d) { return x(d._id); })
+			.attr("y", function(d) { return y(d.value); })
+			.attr("width", x.rangeBand())
+			.attr("height", function(d) { return height - y(d.value); })
+			.attr("fill", function(d) {
+				return "rgb(0, 0, " + (d.value * 3) + ")";
+			});
 
 		//Exit…
 		// bar.exit()
@@ -142,5 +142,28 @@ Template.fpSourceChart.onRendered( function(){
 	function type(d) {
 	  d.value = +d.value; // coerce to number
 	  return d;
+	}
+	function wrap(text, width) {
+	  text.each(function() {
+	    var text = d3.select(this),
+	        words = text.text().split(/\s+/).reverse(),
+	        word,
+	        line = [],
+	        lineNumber = 0,
+	        lineHeight = 1.1, // ems
+	        y = text.attr("y"),
+	        dy = parseFloat(text.attr("dy")),
+	        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+	    while (word = words.pop()) {
+	      line.push(word);
+	      tspan.text(line.join(" "));
+	      if (tspan.node().getComputedTextLength() > width) {
+	        line.pop();
+	        tspan.text(line.join(" "));
+	        line = [word];
+	        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+	      }
+	    }
+	  });
 	}
 });
