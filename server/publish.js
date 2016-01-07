@@ -12,3 +12,112 @@ Meteor.startup(function() {
     }
   });
 });
+
+// Meteor.publish('sourceAggr', function() {  
+//   self = this;
+//   contacts = Leads.aggregate([
+//       // {$match: {creatorId: this.userId}}, 
+//       {$project: {source: 1}}, 
+//       // { $unwind : "$invites" }, 
+//       {$group: {_id: "source"}}
+//       // ,{$project: {email: "$_id.email"}}
+//   ])
+//   console.log('conatacts',contacts);
+//   // _(contacts).each(function(contact) {
+//   //   if (contact.email) {
+//   //     if (!Contacts.findOne({userId: self.userId, email: contact.email})) {
+//   //       self.added('contacts', Random.id(), {email: contact.email, userId: self.userId, name: ''});
+//   //     }
+//   //   }
+//   // });
+// });
+
+// Only publish data for the matches we care about. Be careful not to over-publish
+Meteor.publish('MatchPointMetrics', function() {//leagueMatchId
+  var sub = this;
+  var initializing = true;
+
+  // Define our aggregation pipeline
+  var pipeline = [
+    // {$match : {leagueMatchId: leagueMatchId}}, // Only aggregate the data we need
+    // {$unwind : '$teams'},
+    {$match : { source: { $ne: "" } }},//exclude blank source records
+    {
+      $group: {
+        _id: '$source',
+        // total: {
+        //   $sum: '$teams.totalMatchPoints'
+        // },
+        // avg: {
+        //   $avg: '$teams.totalMatchPoints'
+        // },
+        value: {
+          $sum: 1
+        }
+      }
+    }
+  ];
+
+  // Track any changes on the collection we are going to use for aggregation
+  var query = Leads.find({});//leagueMatchId: leagueMatchId
+  var handle = query.observeChanges({
+    added: function (id) {
+      // observeChanges only returns after the initial `added` callbacks
+      // have run. Until then, we don't want to send a lot of
+      // `self.changed()` messages - hence tracking the
+      // `initializing` state.
+      if (!initializing) {
+        runAggregation('changed');
+      }
+    },
+    removed: function (id) {
+      runAggregation('changed');
+    },
+    changed: function (id) {
+      runAggregation('changed');
+    },
+    error: function(err){
+      throw new Meteor.Error('Uh oh! something went wrong!', err.message);
+    }
+  });
+
+  // Instead, we'll send one `self.added()` message right after
+  // observeChanges has returned, and mark the subscription as
+  // ready.
+  initializing = false;
+  // Run the aggregation initially to add some data to our aggregation collection
+  runAggregation('added');
+  // Wrap the aggregation call inside of a function
+  // since it will be called more than once
+  function runAggregation(action){
+    Leads.aggregate(pipeline).forEach(function(e) {
+      if(action === 'changed'){
+        // Aggregate and update our collection with the new data changes
+        sub.changed('MatchPointMetrics', e._id, {
+          _id: e._id,
+          // total: e.total,
+          // avg: e.avg,
+          value: e.value
+        });
+      }
+      else {
+        // Aggregate and then add a new record to our collection
+        sub.added('MatchPointMetrics', e._id, {
+          _id: e._id,
+          // total: e.total,
+          // avg: e.avg,
+          value: e.value
+        });
+      }
+      // Mark the subscription ready
+      sub.ready();
+    });
+  }
+
+  // Stop observing the cursor when client unsubs.
+  // Stopping a subscription automatically takes
+  // care of sending the client any removed messages.
+  sub.onStop(function () {
+    handle.stop();
+  });
+});

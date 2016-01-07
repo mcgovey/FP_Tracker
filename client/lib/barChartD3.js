@@ -1,4 +1,7 @@
+
+
 Template.fpSourceChart.onRendered( function(){
+  	this.subscribe('MatchPointMetrics');
 	//Width and height
 	var w = 600;
 	var h = 250;
@@ -27,11 +30,9 @@ Template.fpSourceChart.onRendered( function(){
 		
 		// var dataset = Leads.find({},{fields: {source: 1}}).fetch();//,modifier
 
-		var dataset = Leads.aggregate([
-		  {$group: {_id: "source", source: {$count: "$source"}}}
-		]);
+		var dataset = MatchPointMetrics.find({}).fetch();
 
-		console.log(dataset);
+		// console.log('dataset', dataset);
 
 		//Update scale domains
 		xScale.domain(d3.range(dataset.length));
@@ -46,6 +47,9 @@ Template.fpSourceChart.onRendered( function(){
 			.append("rect")
 			.attr("x", w)
 			.attr("y", function(d) {
+				// console.log('d',d);
+				// console.log('d.value',d.value);
+				// console.log('yScale(d.value)',yScale(d.value));
 				return h - yScale(d.value);
 			})
 			.attr("width", xScale.rangeBand())

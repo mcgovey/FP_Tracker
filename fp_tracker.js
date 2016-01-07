@@ -1,9 +1,13 @@
 Leads = new Mongo.Collection("leads");
 Calls = new Mongo.Collection("callLog");
 
+// client: declare collection to hold count object
+PlayersCounts = new Meteor.Collection("players_counts");
+
 if (Meteor.isClient) {
   Meteor.subscribe("leads");
   Meteor.subscribe("theCallLog");
+  Meteor.subscribe("players_counts");
 
 
 // Template.leadForm.helpers({
@@ -200,5 +204,17 @@ Meteor.methods({
   removeLead: function (documentId){
     Leads.remove({ _id: documentId });
   }
+  // ,
+  // aggrResults: function () {
+  //   // var metrics = Leads;
+  //   // console.log('leads',Leads);
+  //   var pipeline = [
+  //     {$group: {_id: null, source: {$sum: "$source"}}}
+  //   ];
+  //   console.log('pipeline',pipeline);
+  //   var result = leadMetrics.aggregate(pipeline);
+  //   console.log('results',result);
+  //   return result;
+  // }
 });
 
