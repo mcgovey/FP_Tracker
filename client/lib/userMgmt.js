@@ -24,8 +24,14 @@ Template.loginModal.events({
         event.preventDefault();
         var email = $('[name=email]').val();
         var password = $('[name=password]').val();
-        Meteor.loginWithPassword(email, password);
-        $('#loginModalDiv').modal('toggle');
+        
+        Meteor.loginWithPassword(email, password, function(error){
+		    if(error){
+		        console.log(error.reason);
+		    } else {
+		        $('#loginModalDiv').modal('toggle');
+		    }
+		});
     }
 });
 
@@ -36,10 +42,10 @@ Template.navigation.helpers({
 		var authedUser = Meteor.user() ? Meteor.user().loginStateSignedUp : " ";
 		// confirm that account is real
 		if (authedUser) {
-			console.log('real account');
+			// console.log('real account');
 			return true;
 		} else if (!authedUser) {
-			console.log('guest account');
+			// console.log('guest account');
 			return false;
 		};
 		

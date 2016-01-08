@@ -50,19 +50,23 @@
 		<button id="exportAll" type="button" class="bigBtn btnRawCSV btn btn-info">ExportData</button>
 	</div>
     <div class="container">
-	    <table id="viewLeadsTable" class="table">
-	    	<tr>
-	    		<th>FP Name</th>
-	    		<th>Inquiry Date</th>
-	    		<th>Source</th>
-	    		<th>Application Status</th>
-	    		<th>Phone Number</th>
-	    		<th>Call History</th>
-	    		<th>Delete</th>
-	    	</tr>
-	    	{{#each lead}}
-	    		{{> leadItem}}
-	    	{{/each}}
+	    <table id="viewLeadsTable" class="table table-hover">
+	    	<thead>
+		    	<tr>
+		    		<th>FP Name</th>
+		    		<th>Inquiry Date</th>
+		    		<th>Source</th>
+		    		<th>Application Status</th>
+		    		<th>Phone Number</th>
+		    		<th>Call History</th>
+		    		<th>Delete</th>
+		    	</tr>
+	    	</thead>
+	    	<tbody>
+		    	{{#each lead}}
+		    		{{> leadItem}}
+		    	{{/each}}
+	    	</tbody>
 	    </table>
 	</div>
 </template>
