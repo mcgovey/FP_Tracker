@@ -3,10 +3,11 @@ Template.fpSourceChart.onRendered( function(){
   	this.subscribe('MatchPointMetrics');
 
 	//Width and height
-	var margin = {top: 20, right: 20, bottom: 30, left: 40},
-	    width = 960 - margin.left - margin.right,
-	    height = 500 - margin.top - margin.bottom;
-
+	var margin = {top: 10, right: 10, bottom: 20, left: 25}
+		, width = parseInt(d3.select('.plotContainer').style('width'), 10) - 30 //get container width less padding
+	    , width = width - margin.left - margin.right
+	    , height = 150 - margin.top - margin.bottom;
+	// console.log(margin);
 	//set x scale
 	var x = d3.scale.ordinal()
 	    .rangeRoundBands([0, width], .1);
@@ -87,7 +88,7 @@ Template.fpSourceChart.onRendered( function(){
 				return "rgb(0, 0, " + (d.value * 3) + ")";
 			});
 
-		//Exit…
+		// Exit…
 		// bar.exit()
 		// 	.transition()
 		// 	.duration(500)
