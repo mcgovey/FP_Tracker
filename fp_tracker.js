@@ -29,6 +29,9 @@ if (Meteor.isClient) {
       $('#leadAppStatus').val(leadAppStatus);
   });
 
+  //instead of creating onRendered method, used packages to manage guest logins
+  //artwells:accounts-guest, check, random
+
 //Helpers
   Template.leads.helpers({
     'lead': function(){
