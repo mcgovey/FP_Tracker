@@ -1,4 +1,4 @@
-/* CSS declarations go here */
+/* Analysis page CSS */
 .axis text {
   font: 10px sans-serif;
 }
@@ -14,6 +14,22 @@
   display: none;
 }
 
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
+/*General CSS*/
 .bigBtn {
 	margin: 	10px;
 	/*padding: 	20px;*/

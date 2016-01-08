@@ -2,15 +2,16 @@
 Template.fpSourceChart.onRendered( function(){
   	this.subscribe('MatchPointMetrics');
 
+  	var mainElement = d3.select('.plotContainer');
 	//Width and height
-	var margin = {top: 10, right: 10, bottom: 20, left: 25}
-		, width = parseInt(d3.select('.plotContainer').style('width'), 10) - 30 //get container width less padding
+	var margin = {top: 10, right: 10, bottom: 30, left: 25}
+		, width = parseInt(mainElement.style('width'), 10) - parseInt(mainElement.style('padding'),10) //get container width less padding
 	    , width = width - margin.left - margin.right
-	    , height = 150 - margin.top - margin.bottom;
+	    , height = 200 - margin.top - margin.bottom - 30;
 	// console.log(margin);
 	//set x scale
 	var x = d3.scale.ordinal()
-	    .rangeRoundBands([0, width], .1);
+	    .rangeRoundBands([0, width-margin.left], .1);
 
 	//set y scale
 	var y = d3.scale.linear()
@@ -25,15 +26,24 @@ Template.fpSourceChart.onRendered( function(){
 	var yAxis = d3.svg.axis()
 	    .scale(y)
 	    .orient("left")
-	    // .ticks(10, "%")
+	    .ticks(5)
 	    ;
 
-	//Create SVG element
-	var chart = d3.select("#barChart")
-	    .attr("width", width + margin.left + margin.right)
-	    .attr("height", height + margin.top + margin.bottom)
+	var chart = d3.select("div#barChart")
+	   .append("div")
+	   .classed("svg-container", true) //container class to make it responsive
+	   .append("svg")
+	   //responsive SVG needs these 2 attributes and no width and height attr
+	   .attr("preserveAspectRatio", "xMinYMin meet")
+	   .attr("viewBox","0 0 " + width + " " + height+30)
+	   //class to make it responsive
+	   .classed("svg-content-responsive", true)
 	  .append("g")
-	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
+	//Create SVG element
+	// d3.select("#barChart")
+	//     .attr("width", width + margin.left + margin.right)
+	//     .attr("height", height + margin.top + margin.bottom)
 
 
 	Deps.autorun(function(){
