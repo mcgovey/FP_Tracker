@@ -18,7 +18,6 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 iron:router
 accounts-password
-accounts-ui
 twbs:bootstrap
 
 
@@ -28,6 +27,6 @@ harrison:papa-parse
 meteorhacks:npm
 d3js:d3
 meteorhacks:aggregate
-artwells:accounts-guest
 check
 random
+artwells:accounts-guest

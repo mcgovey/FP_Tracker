@@ -1,4 +1,4 @@
-cd "C:\Program Files\MongoDB\Server\3.0\bin"
+cd "C:\Program Files\MongoDB\Server\3.2\bin"
 
 .\mongoimport.exe -h localhost:3001 --db meteor --collection leads --type csv --headerline --file C:\Meteor\FP_Tracker\FPTracking.csv
 
@@ -21,7 +21,7 @@ mongodump -u client -h sky.member1.mongolayer.com:27017 -d YOURSITE_meteor_com\
 
 
 
-cd "C:\Program Files\MongoDB\Server\3.0\bin"
+cd "C:\Program Files\MongoDB\Server\3.2\bin"
 .\mongodump.exe --host localhost:3001 --db meteor -o C:/Meteor/fp_tracker
 
 meteor deploy fptracker.meteor.com --delete
@@ -31,4 +31,4 @@ meteor deploy fptracker.meteor.com
 
 meteor mongo --url fptracker.meteor.com
 
-.\mongorestore.exe -u client-692c864c -p befd8091-146f-8738-028d-1a9f7d834000 -h ds029635-a0.jhd88.fleet.mongolab.com:29635 --db fptracker_meteor_com C:\Meteor\fp_tracker\Meteor
+.\mongorestore.exe -u client-ecb4b079 -p 0b7ef013-ccf5-b3b5-3f73-042c27ede325 -h production-db-e1.meteor.io:27017 --db fp_tracker_meteor_com C:\Meteor\fp_tracker\Meteor
