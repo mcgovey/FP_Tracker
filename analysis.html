@@ -1,4 +1,5 @@
 <template name="analysis">
+	{{> fpBulletChart}}
 	{{> fpSourceChart}}
 </template>
 
@@ -7,6 +8,15 @@
 		<div class="col-sm-12 plotContainer">
 			<h3 class="text-center">Mr. Bar Chart</h3>
 			<div id="barChart"></div>
+		</div>
+	</div>
+</template>
+
+<template name="fpBulletChart">
+	<div class="container">
+		<div class="col-sm-12 plotContainer">
+			<h3 class="text-center">Mr. Bullet Chart</h3>
+			<div id="bulletChart"></div>
 		</div>
 	</div>
 </template>

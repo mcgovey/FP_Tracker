@@ -13,25 +13,6 @@ Meteor.startup(function() {
   });
 });
 
-// Meteor.publish('sourceAggr', function() {  
-//   self = this;
-//   contacts = Leads.aggregate([
-//       // {$match: {creatorId: this.userId}}, 
-//       {$project: {source: 1}}, 
-//       // { $unwind : "$invites" }, 
-//       {$group: {_id: "source"}}
-//       // ,{$project: {email: "$_id.email"}}
-//   ])
-//   console.log('conatacts',contacts);
-//   // _(contacts).each(function(contact) {
-//   //   if (contact.email) {
-//   //     if (!Contacts.findOne({userId: self.userId, email: contact.email})) {
-//   //       self.added('contacts', Random.id(), {email: contact.email, userId: self.userId, name: ''});
-//   //     }
-//   //   }
-//   // });
-// });
-
 // Only publish data for the matches we care about. Be careful not to over-publish
 Meteor.publish('MatchPointMetrics', function() {//leagueMatchId
   var sub = this;

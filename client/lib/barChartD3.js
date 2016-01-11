@@ -7,7 +7,7 @@ Template.fpSourceChart.onRendered( function(){
 	var margin = {top: 10, right: 10, bottom: 30, left: 25}
 		, width = parseInt(mainElement.style('width'), 10) - parseInt(mainElement.style('padding'),10) //get container width less padding
 	    , width = width - margin.left - margin.right
-	    , height = 200 - margin.top - margin.bottom - 30;
+	    , height = 200 - margin.top - margin.bottom;
 	// console.log(margin);
 	//set x scale
 	var x = d3.scale.ordinal()
@@ -28,14 +28,14 @@ Template.fpSourceChart.onRendered( function(){
 	    .orient("left")
 	    .ticks(5)
 	    ;
-
+	    
 	var chart = d3.select("div#barChart")
 	   .append("div")
 	   .classed("svg-container", true) //container class to make it responsive
 	   .append("svg")
 	   //responsive SVG needs these 2 attributes and no width and height attr
 	   .attr("preserveAspectRatio", "xMinYMin meet")
-	   .attr("viewBox","0 0 " + width + " " + height+30)
+	   .attr("viewBox","0 0 " + width + " " + (height*1.3))
 	   //class to make it responsive
 	   .classed("svg-content-responsive", true)
 	  .append("g")
