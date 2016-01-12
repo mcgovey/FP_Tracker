@@ -6,6 +6,12 @@ Template.registerModal.events({
         Accounts.createUser({
             email: email,
             password: password
+        }, function(error){
+            if(error){
+                console.log(error.reason); // Output error if registration fails
+            } else {
+                Router.go("home"); // Redirect user if registration succeeds
+            }
         });
         Meteor.loginWithPassword(email, password);
         $('#registerModalDiv').modal('toggle');

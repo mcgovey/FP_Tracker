@@ -27,7 +27,7 @@ Template.fpBulletChart.onRendered( function(){
 
       var mainElement = d3.select('.plotContainer');
       //Width and height
-      var margin = {top: 10, right: 10, bottom: 30, left: 25}
+      var margin = {top: 10, right: 10, bottom: 30, left: 10}
         , width = parseInt(mainElement.style('width'), 10) - parseInt(mainElement.style('padding'),10) //get container width less padding
         , width = width - margin.left - margin.right
         , height = (data.length*36) - margin.top - margin.bottom;
@@ -103,14 +103,18 @@ Template.fpBulletChart.onRendered( function(){
          return d.value;
        })
        .attr("text-anchor", "middle")
-       .attr("y", function(d) { return dim(d._id); })
+       .attr("y", function(d) { 
+        return (dim(d._id)+((dim.rangeBand()-11)/2)); 
+      })
        .attr("x", function(d) {
-         return width - mes(d.value) + 14;
+        console.log(d._id, ' width', width, 'mesvalue', mes(d.value));
+         return width - mes(d.value) - 14;
        })
-         .attr("font-family", "sans-serif")
-         .attr("font-size", "11px")
-         .attr("fill", "white");
+      .attr("font-family", "sans-serif")
+      .attr("font-size", "11px")
+      .attr("fill", "white");
 
+      
 
       //create line markers
       chart.selectAll(".marker")
