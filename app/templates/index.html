@@ -1,0 +1,51 @@
+<head>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+</head>
+
+<template name="main">
+    {{> navigation}}
+    {{> yield}}
+</template>
+
+<template name="navigation">
+	<nav class="navbar navbar-inverse">
+		<div class="navbar-header">
+	      <a class="navbar-brand" href="{{pathFor route='home'}}">FP Tracker <span class="glyphicon glyphicon-home"></span></a>
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <!-- <span class="icon-bar"></span>  -->
+	      </button>
+	    </div>
+	    <div>
+		    <ul id="myNavbar" class="nav navbar-nav collapse navbar-collapse">
+		        <!-- <li><a href="{{pathFor route='home'}}">Home</a></li> -->
+		        <li><a href="{{pathFor route='analysis'}}">Analysis</a></li>
+		        <li><a href="{{pathFor route='addLead'}}">Add a New Lead</a></li>
+		        <!-- <li><a href="{{pathFor route='searchLead'}}">Search for a Lead</a>< -->/li>
+		    </ul>
+		    <ul class="nav navbar-nav collapse navbar-collapse navbar-right">
+			{{#if currentUserCust}}
+		        <li><a href="#" class="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+		    {{else}}
+		        <li><a data-toggle="modal" data-target="#registerModalDiv" href="#"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+		        <li><a data-toggle="modal" data-target="#loginModalDiv" href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li><!-- {{pathFor route='login'}} -->
+		    {{/if}}
+		    </ul>
+		</div>
+	</nav>
+
+	{{> loginModal}}
+	{{> registerModal}}
+</template>
+
+<template name="home">
+    
+    <h3 class="text-center">Foster Parent Tracker</h3>
+	{{> dateRangeCont}}
+    {{> leads}}
+</template>

@@ -14,14 +14,19 @@ Meteor.startup(function() {
 });
 
 // Only publish data for the matches we care about. Be careful not to over-publish
-Meteor.publish('MatchPointMetrics', function() {//leagueMatchId
+Meteor.publish('MatchPointMetrics', function(dateRange) {
+
+  console.log('dateRange',dateRange);
+
   var sub = this;
   var initializing = true;
 
   // Define our aggregation pipeline
   var pipeline = [
-    // {$match : {leagueMatchId: leagueMatchId}}, // Only aggregate the data we need
-    // {$unwind : '$teams'},
+    {$match : { inquiryDate: {
+      $gte: dateRange.startDate,
+      $lt: dateRange.endDate
+      } }},
     {$match : { source: { $ne: "" } }},//exclude blank source records
     {
       $group: {
@@ -74,7 +79,7 @@ Meteor.publish('MatchPointMetrics', function() {//leagueMatchId
     Leads.aggregate(pipeline).forEach(function(e) {
       if(action === 'changed'){
         // Aggregate and update our collection with the new data changes
-        sub.changed('MatchPointMetrics', e._id, {
+        sub.changed('InquirySource', e._id, {
           _id: e._id,
           // total: e.total,
           // avg: e.avg,
@@ -83,7 +88,7 @@ Meteor.publish('MatchPointMetrics', function() {//leagueMatchId
       }
       else {
         // Aggregate and then add a new record to our collection
-        sub.added('MatchPointMetrics', e._id, {
+        sub.added('InquirySource', e._id, {
           _id: e._id,
           // total: e.total,
           // avg: e.avg,

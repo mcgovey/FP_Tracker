@@ -21,7 +21,7 @@ Template.fpBulletChart.onRendered( function(){
   Deps.autorun(function(){
 
     var data = MatchPointMetrics.find({}).fetch();
-    console.log('data', data);
+    // console.log('data', data);
 
     if (data.length!==0) {
 
@@ -107,7 +107,7 @@ Template.fpBulletChart.onRendered( function(){
         return (dim(d._id)+((dim.rangeBand()-11)/2)); 
       })
        .attr("x", function(d) {
-        console.log(d._id, ' width', width, 'mesvalue', mes(d.value));
+        // console.log(d._id, ' width', width, 'mesvalue', mes(d.value));
          return width - mes(d.value) - 14;
        })
       .attr("font-family", "sans-serif")

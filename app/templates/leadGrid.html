@@ -1,0 +1,39 @@
+<template name="leads">
+	<div class="container">
+		<a href="{{pathFor route='addLead'}}"><div class="bigBtn btn btn-primary">Add a Lead</div></a>
+		<button id="exportAll" type="button" class="bigBtn btnRawCSV btn btn-info">Export</button>
+	</div>
+	<div class="container">
+		<table id="viewLeadsTable" class="table table-hover">
+			<thead>
+				<tr>
+					<th>FP Name</th>
+					<th>Inquiry Date</th>
+					<th>Source</th>
+					<th>Application Status</th>
+					<th>Phone Number</th>
+					<th>Call History</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each lead}}
+					{{> leadItem}}
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+</template>
+
+<template name="leadItem">
+	
+	<tr>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{name}} 			</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{formatDate inquiryDate}} 	</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{source}} 			</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{appStatus}}		</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{phoneNum}}		</div></a></td>
+		<td><a href="callHistory/{{_id}}" class="">Calls</a></td>
+		<td><a href="#" class="delete-lead">Delete</a></td>
+    </tr>
+</template>

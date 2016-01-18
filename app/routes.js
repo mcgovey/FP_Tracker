@@ -9,9 +9,9 @@ Router.route('/', {
 
 Router.route('/addLead');
 
-Router.route('/searchLead');
-
 Router.route('/analysis');
+
+Router.route('/exportSelections');
 
 Router.route('/viewLeads', {
     template: 'leads'

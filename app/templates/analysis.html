@@ -1,15 +1,27 @@
 <template name="analysis">
-	{{> fpBulletChart}}
+	<!-- {{> fpBulletChart}} -->
+	{{> dateRangeCont}}
 	{{> fpSourceChart}}
 </template>
 
 <template name="fpSourceChart">
+  
 	<div class="container">
 		<div class="col-sm-12 plotContainer">
-			<h3 class="text-center">Mr. Bar Chart</h3>
-			<div id="barChart"></div>
+			{{#if Template.subscriptionsReady}}
+				<h3 class="text-center">Inquiry Sources</h3>
+				{{> barChart}}
+			{{else}}
+    			<h4 class="text-center">Loading...</h4>
+			{{/if}}
 		</div>
 	</div>
+
+</template>
+
+<template name="barChart">
+	<div id="barChart"></div>
+	<!-- {{buildChart}} -->
 </template>
 
 <template name="fpBulletChart">
@@ -17,6 +29,7 @@
 		<div class="col-sm-12 plotContainer">
 			<h3 class="text-center">Mr. Bullet Chart</h3>
 			<div id="bulletChart"></div>
+
 		</div>
 	</div>
 </template>

@@ -1,21 +1,23 @@
 
-Template.fpSourceChart.onRendered( function(){
-  	this.subscribe('MatchPointMetrics');
+Template.barChart.onRendered( function(){
+
+  	var barHeight = (($(window).height() - $('.navbar').height())*.9)/2;
+  	// console.log('barHeight', barHeight);
 
   	var mainElement = d3.select('.plotContainer');
 	//Width and height
 	var margin = {top: 10, right: 10, bottom: 30, left: 25}
 		, width = parseInt(mainElement.style('width'), 10) - parseInt(mainElement.style('padding'),10) //get container width less padding
 	    , width = width - margin.left - margin.right
-	    , height = 200 - margin.top - margin.bottom;
-	// console.log(margin);
+	    , height = barHeight - margin.top - margin.bottom;
+
 	//set x scale
 	var x = d3.scale.ordinal()
 	    .rangeRoundBands([0, width-margin.left], .1);
 
 	//set y scale
 	var y = d3.scale.linear()
-	    .range([height, 0]);
+	    .range([(height*.9), 0]);
 
 	// create x axis
 	var xAxis = d3.svg.axis()
@@ -28,35 +30,39 @@ Template.fpSourceChart.onRendered( function(){
 	    .orient("left")
 	    .ticks(5)
 	    ;
+
 	    
 	var chart = d3.select("div#barChart")
 	   .append("div")
+	   // .attr('style', 'height: '+barHeight)
 	   .classed("svg-container", true) //container class to make it responsive
 	   .append("svg")
 	   //responsive SVG needs these 2 attributes and no width and height attr
 	   .attr("preserveAspectRatio", "xMinYMin meet")
-	   .attr("viewBox","0 0 " + width + " " + (height*1.3))
+	   .attr("viewBox","0 0 " + width + " " + (height*1.2))
 	   //class to make it responsive
 	   .classed("svg-content-responsive", true)
 	  .append("g")
-	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
-	//Create SVG element
-	// d3.select("#barChart")
-	//     .attr("width", width + margin.left + margin.right)
-	//     .attr("height", height + margin.top + margin.bottom)
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+	var parentChart = $("div#barChart .svg-container")
+		.css('height', barHeight);
 
-	Deps.autorun(function(){
+	Tracker.autorun(function(){
+
+		var dateRange = Session.get('dates');
+		
+		Meteor.subscribe('MatchPointMetrics',dateRange);
 
 		var data = MatchPointMetrics.find({}).fetch();
-		// console.log('data',data);
+		console.log('data',data);
 
 		x.domain(data.map(function(d) { return d._id; }));
 		y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
 		chart.append("g")
 		  .attr("class", "x axis")
-		  .attr("transform", "translate(0," + height + ")")
+		  .attr("transform", "translate(0," + (height*.9) + ")")
 		  .call(xAxis)
 		.selectAll(".tick text")
 		  .call(wrap, x.rangeBand());
@@ -68,19 +74,12 @@ Template.fpSourceChart.onRendered( function(){
 		  .attr("transform", "rotate(-90)")
 		  .attr("y", 6)
 		  .attr("dy", ".71em")
-		  .style("text-anchor", "end")
-		  // .text("Frequency")
-		  ;
+		  .style("text-anchor", "end");
 
 		chart.selectAll(".bar")
 		  .data(data)
 		.enter().append("rect")
-		  .attr("class", "bar")
-		  // .attr("x", function(d) { return x(d._id); })
-		  // .attr("width", x.rangeBand())
-		  // .attr("y", function(d) { return y(d.value); })
-		  // .attr("height", function(d) { return height - y(d.value); })
-		  ;
+		  .attr("class", "bar");
 
 		var bar = chart.selectAll(".bar");
 
@@ -93,18 +92,10 @@ Template.fpSourceChart.onRendered( function(){
 			.attr("x", function(d) { return x(d._id); })
 			.attr("y", function(d) { return y(d.value); })
 			.attr("width", x.rangeBand())
-			.attr("height", function(d) { return height - y(d.value); })
+			.attr("height", function(d) { return (height*.9) - y(d.value); })
 			.attr("fill", function(d) {
 				return "rgb(0, 0, " + (d.value * 3) + ")";
 			});
-
-		// Exit…
-		// bar.exit()
-		// 	.transition()
-		// 	.duration(500)
-		// 	.attr("x", -x.rangeBand())
-		// 	.remove();
-
 
 
 		//Update all labels
@@ -142,18 +133,9 @@ Template.fpSourceChart.onRendered( function(){
 		// 		return d.value;
 		// 	});
 
-		// //Exit…
-		// labels.exit()
-		// 	.transition()
-		// 	.duration(500)
-		// 	.attr("x", -xScale.rangeBand())
-		// 	.remove();
-
+	// });
 	});
-	function type(d) {
-	  d.value = +d.value; // coerce to number
-	  return d;
-	}
+
 	function wrap(text, width) {
 	  text.each(function() {
 	    var text = d3.select(this),
