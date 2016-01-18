@@ -2,10 +2,16 @@ Meteor.subscribe("leads");
 
 Template.leads.helpers({
 	'lead': function(){
-	  return Leads.find({},{sort: {inquiryDate: -1, createdAt: -1}});
+		var dateRange = Session.get('dates');
+
+		return Leads.find({ inquiryDate: {
+				$gte: dateRange.startDate,
+				$lt: dateRange.endDate
+			} },
+			{sort: {inquiryDate: -1, createdAt: -1}});
 	},
 	isOwner: function () {
-	  return this.owner === Meteor.userId();
+		return this.owner === Meteor.userId();
 	}
 });
 

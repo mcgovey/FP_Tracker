@@ -16,7 +16,7 @@ Meteor.startup(function() {
 // Only publish data for the matches we care about. Be careful not to over-publish
 Meteor.publish('MatchPointMetrics', function(dateRange) {
 
-  console.log('dateRange',dateRange);
+  // console.log('dateRange',dateRange);
 
   var sub = this;
   var initializing = true;
@@ -26,17 +26,12 @@ Meteor.publish('MatchPointMetrics', function(dateRange) {
     {$match : { inquiryDate: {
       $gte: dateRange.startDate,
       $lt: dateRange.endDate
-      } }},
+      } }
+    },
     {$match : { source: { $ne: "" } }},//exclude blank source records
     {
       $group: {
         _id: '$source',
-        // total: {
-        //   $sum: '$teams.totalMatchPoints'
-        // },
-        // avg: {
-        //   $avg: '$teams.totalMatchPoints'
-        // },
         value: {
           $sum: 1
         }

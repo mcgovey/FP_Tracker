@@ -50,8 +50,6 @@ Template.barChart.onRendered( function(){
 
 	Tracker.autorun(function(){
 
-		var dateRange = Session.get('dates');
-		
 		Meteor.subscribe('MatchPointMetrics',dateRange);
 
 		var data = MatchPointMetrics.find({}).fetch();
@@ -94,7 +92,7 @@ Template.barChart.onRendered( function(){
 			.attr("width", x.rangeBand())
 			.attr("height", function(d) { return (height*.9) - y(d.value); })
 			.attr("fill", function(d) {
-				return "rgb(0, 0, " + (d.value * 3) + ")";
+				return "rgb(0, 0, " + (d.value * 10) + ")";
 			});
 
 
