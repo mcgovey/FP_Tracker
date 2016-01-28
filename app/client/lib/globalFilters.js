@@ -20,7 +20,7 @@ Template.dateRangeCont.onRendered(function () {
 		};
 	};
 
-	// for the input date range, use the daterangepicker function from the so-named library
+	// for the input date range, use the daterangepicker function from the respective library
 	$('input[name="daterange"]').daterangepicker(
 		{
 		locale: {
@@ -37,6 +37,7 @@ Template.dateRangeCont.onRendered(function () {
 			endDate: filters.dates.endDate.format('YYYY-MM-DD')
 		}
 	};
+	console.log('formattedfilters',formattedFilters);
 	// set the variable
 	Session.set('globalFilters',formattedFilters);
 });

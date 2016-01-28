@@ -9,10 +9,23 @@
 	    <div id="collapse1" class="panel-collapse collapse">
 	      <ul class="list-group">
 	        <li class="list-group-item">
-					Inquiry Date:
-					<input class="form-control" type="text" id="daterange" name="daterange" value="01/01/2015 - 01/31/2015" />
+	        	<form class="form-horizontal" role="form">
+	        		<div class="form-group">
+						<label class="control-label col-sm-2" for="daterange">Inquiry Date:</label>
+						<div class="col-sm-10">
+							<input class="form-control" type="text" id="daterange" name="daterange" value="01/01/2015 - 01/31/2015" />
+						</div>
+					</div>
+				</form>
 			</li>
-	        <li class="list-group-item">Two</li>
+	        <li class="list-group-item">
+	        	<form class="form-inline" role="form">
+					<div class="form-group">
+						<label for="email">Email address:</label>
+						<input type="email" class="form-control" id="email">
+					</div>
+				</form>
+			</li>
 	        <li class="list-group-item">Three</li>
 	      </ul>
 	    </div>
