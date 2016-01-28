@@ -1,11 +1,18 @@
-/* Analysis page CSS */
+
+/*filter styling*/
 #daterange {
   text-align: center;
 }
 #daterange:hover {
   cursor: pointer;
 }
+.panel-title a {
+    display: block;
+    padding: 10px 15px;
+    margin: -10px -15px;
+}
 
+/*d3 styling*/
 .axis text {
   font: 10px sans-serif;
 }

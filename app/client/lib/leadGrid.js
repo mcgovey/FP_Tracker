@@ -17,7 +17,12 @@ Template.leads.helpers({
 
 Template.leadItem.helpers({
 	'formatDate': function(date) {
-		var dateVar = moment(date, 'YYYY-MM-DD').format('M/D/YY');
+		var dateVar;
+		if (date) {
+			dateVar = moment(date, 'YYYY-MM-DD').format('M/D/YY');
+		} else{
+			dateVar = "";
+		};
 		return dateVar;
 	}
 });

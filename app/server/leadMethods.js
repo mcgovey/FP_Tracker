@@ -57,17 +57,24 @@ Meteor.methods({
   },
   removeLead: function (documentId){
     Leads.remove({ _id: documentId });
+  },
+  updateDates: function (dateField) {
+    Leads.find().forEach(function(el){
+        if (el[dateField]) {
+          el[dateField]= moment(el[dateField],'MM/DD/YYYY').format('YYYY-MM-DD');
+        } else{
+          el[dateField]="";
+        };
+
+        Leads.update({_id: el._id},{$set: el});
+
+        //Meteor.call("updateDates", "inquiryDate");
+        //Meteor.call("updateDates", "expectOrientDate");
+        //Meteor.call("updateDates", "followupDate");
+        //Meteor.call("updateDates", "orientAttendDate");
+        //Meteor.call("updateDates", "appSubmitDate");
+        //Meteor.call("updateDates", "homeOpenDate");
+        //Meteor.call("updateDates", "appDecisionDate");
+    });
   }
-  // ,
-  // aggrResults: function () {
-  //   // var metrics = Leads;
-  //   // console.log('leads',Leads);
-  //   var pipeline = [
-  //     {$group: {_id: null, source: {$sum: "$source"}}}
-  //   ];
-  //   console.log('pipeline',pipeline);
-  //   var result = leadMetrics.aggregate(pipeline);
-  //   console.log('results',result);
-  //   return result;
-  // }
 });
