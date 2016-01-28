@@ -25,7 +25,7 @@ Meteor.publish('MatchPointMetrics', function(dateRange) {
   var pipeline = [
     {$match : { inquiryDate: {
       $gte: dateRange.startDate,
-      $lt: dateRange.endDate
+      $lte: dateRange.endDate
       } }
     },
     {$match : { source: { $ne: "" } }},//exclude blank source records

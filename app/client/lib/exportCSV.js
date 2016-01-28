@@ -5,7 +5,7 @@ Template.leads.events({
 		var dateRange = Session.get('dates');
 	    var rawData = Leads.find({ inquiryDate: {
 				$gte: dateRange.startDate,
-				$lt: dateRange.endDate
+				$lte: dateRange.endDate
 			} },{fields: { _id: 0 }}).fetch();
 	    csv = Papa.unparse(rawData);//json2csv( rawData, true, true );
 	    var blob = new Blob([csv], {type: "text/plain;charset=utf-8;",});

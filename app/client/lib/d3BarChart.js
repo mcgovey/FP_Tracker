@@ -50,10 +50,11 @@ Template.barChart.onRendered( function(){
 
 	Tracker.autorun(function(){
 
+		var dateRange = Session.get('dates');
 		Meteor.subscribe('MatchPointMetrics',dateRange);
 
 		var data = MatchPointMetrics.find({}).fetch();
-		console.log('data',data);
+		// console.log('data',data);
 
 		x.domain(data.map(function(d) { return d._id; }));
 		y.domain([0, d3.max(data, function(d) { return d.value; })]);

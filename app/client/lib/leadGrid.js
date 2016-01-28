@@ -6,7 +6,7 @@ Template.leads.helpers({
 
 		return Leads.find({ inquiryDate: {
 				$gte: dateRange.startDate,
-				$lt: dateRange.endDate
+				$lte: dateRange.endDate
 			} },
 			{sort: {inquiryDate: -1, createdAt: -1}});
 	},
@@ -22,13 +22,3 @@ Template.leadItem.helpers({
 	}
 });
 
-Template.leadItem.events({
-	'click .delete-lead': function(event){
-		event.preventDefault();
-		var documentId = this._id;
-		var confirm = window.confirm("Delete this record?");
-		if(confirm){
-			var removeRec = Meteor.call("removeLead", documentId);
-		}
-	}
-});
