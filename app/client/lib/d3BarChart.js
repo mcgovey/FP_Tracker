@@ -52,7 +52,12 @@ Template.barChart.onRendered( function(){
 
 		// var dateRange = Session.get('dates');
 		var appFilters = Session.get('globalFilters');
+	    if (!appFilters) {
+	    	appFilters = updateUndefinedFilter();
+	    };
 		var monFilterString = getGlobalFilterForMongo(appFilters);
+
+		//get published aggregated data
 		Meteor.subscribe('MatchPointMetrics',monFilterString);
 
 		var data = MatchPointMetrics.find({}).fetch();

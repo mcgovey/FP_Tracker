@@ -31,4 +31,4 @@ meteor deploy fptracker.meteor.com
 
 meteor mongo --url fp_tracker.meteor.com
 
-.\mongorestore.exe -u client-ecb4b079 -p 0b7ef013-ccf5-b3b5-3f73-042c27ede325 -h production-db-e1.meteor.io:27017 --db fp_tracker_meteor_com C:\Meteor\fp_tracker\meteor
+.\mongorestore.exe -u client-aaa025c6 -p 2a5507a1-aed4-333d-9de4-92040fde649b -h production-db-e1.meteor.io:27017 --db fp_tracker_meteor_com C:\Meteor\fp_tracker\meteor

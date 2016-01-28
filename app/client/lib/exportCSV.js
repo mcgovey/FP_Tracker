@@ -3,6 +3,9 @@ Template.leads.events({
 	'click .btnRawCSV' : function() {
 	    // Router.go('exportSelections');
 		var appFilters = Session.get('globalFilters');
+	    if (!appFilters) {
+	    	appFilters = updateUndefinedFilter();
+	    };
 		var monFilterString = getGlobalFilterForMongo(appFilters);
 
 	    var rawData = Leads.find(

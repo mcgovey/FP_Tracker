@@ -1,44 +1,33 @@
 Template.dateRangeCont.onRendered(function () {
-	//check if session variable exists
-	if (Session.get('globalFilters')) {
-		//get session variable
-		var sessionFilters = Session.get('globalFilters');
-		//convert to moment format
-		var filters = {
+	Tracker.autorun(function(){
+		//check if session variable exists
+		var filters = Session.get('globalFilters');
+	    if (!filters) {
+	    	filters = updateUndefinedFilter();
+	    };
+	    console.log('filters',filters);
+		// reformat dates into format that will be readable by mongo
+		var formattedFilters = {
 			dates: {
-				startDate: moment(sessionFilters.dates.startDate,'YYYY-MM-DD'),
-				endDate: moment(sessionFilters.dates.endDate,'YYYY-MM-DD')
+				startDate: filters.dates.startDate,
+				endDate: filters.dates.endDate
 			}
 		};
-	} else{
-		// if session var doesn't exist set to standard dates
-		var filters = {
-			dates: {
-				startDate: moment().startOf('month').subtract(1, 'years'),
-				endDate: moment()
-			}
-		};
-	};
-	// reformat dates into format that will be readable by mongo
-	var formattedFilters = {
-		dates: {
-			startDate: filters.dates.startDate.format('YYYY-MM-DD'),
-			endDate: filters.dates.endDate.format('YYYY-MM-DD')
-		}
-	};
-	// set the variable
-	Session.set('globalFilters',formattedFilters);
+	    console.log('formattedFilters',formattedFilters);
+		// set the variable
+		Session.set('globalFilters',formattedFilters);
 
-	// for the input date range, use the daterangepicker function from the respective library
-	$('input[name="daterange"]').daterangepicker(
-		{
-		locale: {
-			format: 'MMM D YYYY'
-			},
-		startDate: filters.dates.startDate,
-		endDate: filters.dates.endDate
-		}
-	);
+		// for the input date range, use the daterangepicker function from the respective library
+		$('input[name="daterange"]').daterangepicker(
+			{
+			locale: {
+				format: 'MMM D YYYY'
+				},
+			startDate: moment(filters.dates.startDate,'YYYY-MM-DD'),
+			endDate: moment(filters.dates.endDate,'YYYY-MM-DD')
+			}
+		);
+	});
 });
 
 Template.dateRangeCont.events({
@@ -49,6 +38,9 @@ Template.dateRangeCont.events({
 
 		//get session variable
 		var filters = Session.get('globalFilters');
+	    if (!filters) {
+	    	filters = updateUndefinedFilter();
+	    };
 
 		//update the dates in the global filter object
 		filters.dates.startDate = moment(daterange[0],'MMM D YYYY').format('YYYY-MM-DD');
