@@ -5,7 +5,7 @@ Template.dateRangeCont.onRendered(function () {
 	    if (!filters) {
 	    	filters = updateUndefinedFilter();
 	    };
-	    console.log('filters',filters);
+
 		// reformat dates into format that will be readable by mongo
 		var formattedFilters = {
 			dates: {
@@ -13,7 +13,7 @@ Template.dateRangeCont.onRendered(function () {
 				endDate: filters.dates.endDate
 			}
 		};
-	    console.log('formattedFilters',formattedFilters);
+
 		// set the variable
 		Session.set('globalFilters',formattedFilters);
 
@@ -48,6 +48,10 @@ Template.dateRangeCont.events({
 
 		// set the updated session vars to the dates in the inputbox
 		Session.set('globalFilters',filters);
+	}
+	,'click #submitSelector button': function (event) {
+		// console.log(event);
+		$('#submitSelector button').addClass('active').not(event.target).removeClass('active');
 	}
 });
 
