@@ -19,6 +19,15 @@ Template.dateRangeCont.onRendered(function () {
 			}
 		};
 	};
+	// reformat dates into format that will be readable by mongo
+	var formattedFilters = {
+		dates: {
+			startDate: filters.dates.startDate.format('YYYY-MM-DD'),
+			endDate: filters.dates.endDate.format('YYYY-MM-DD')
+		}
+	};
+	// set the variable
+	Session.set('globalFilters',formattedFilters);
 
 	// for the input date range, use the daterangepicker function from the respective library
 	$('input[name="daterange"]').daterangepicker(
@@ -30,16 +39,6 @@ Template.dateRangeCont.onRendered(function () {
 		endDate: filters.dates.endDate
 		}
 	);
-	// reformat dates into format that will be readable by mongo
-	var formattedFilters = {
-		dates: {
-			startDate: filters.dates.startDate.format('YYYY-MM-DD'),
-			endDate: filters.dates.endDate.format('YYYY-MM-DD')
-		}
-	};
-	console.log('formattedfilters',formattedFilters);
-	// set the variable
-	Session.set('globalFilters',formattedFilters);
 });
 
 Template.dateRangeCont.events({
