@@ -2,12 +2,12 @@ Meteor.subscribe("leads");
 
 Template.leads.helpers({
 	'lead': function(){
-		var dateRange = Session.get('dates');
+		// var dateRange = Session.get('dates');
+		var appFilters = Session.get('globalFilters');
+		var monFilterString = getGlobalFilterForMongo(appFilters);
 
-		return Leads.find({ inquiryDate: {
-				$gte: dateRange.startDate,
-				$lte: dateRange.endDate
-			} },
+		return Leads.find(
+			monFilterString,
 			{sort: {inquiryDate: -1, createdAt: -1}});
 	},
 	isOwner: function () {

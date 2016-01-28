@@ -56,8 +56,8 @@ Template.addLead.events({
 	}
 });
 
-//on submit of edited lead, call method to update method then return to lead page
 Template.editLead.events({
+	//on submit of edited lead, call method to update method then return to lead page
 	'submit': function(event){
 		event.preventDefault();
 		var documentId = this._id;
@@ -74,6 +74,7 @@ Template.editLead.events({
 		var confirm = window.confirm("Delete this record?");
 		if(confirm){
 			var removeRec = Meteor.call("removeLead", documentId);
+			Router.go('viewLeads');
 		}
 	}
 });

@@ -50,8 +50,10 @@ Template.barChart.onRendered( function(){
 
 	Tracker.autorun(function(){
 
-		var dateRange = Session.get('dates');
-		Meteor.subscribe('MatchPointMetrics',dateRange);
+		// var dateRange = Session.get('dates');
+		var appFilters = Session.get('globalFilters');
+		var monFilterString = getGlobalFilterForMongo(appFilters);
+		Meteor.subscribe('MatchPointMetrics',monFilterString);
 
 		var data = MatchPointMetrics.find({}).fetch();
 		// console.log('data',data);

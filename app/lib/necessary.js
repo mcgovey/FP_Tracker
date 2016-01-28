@@ -4,4 +4,10 @@ Date.prototype.toDateInputValue = (function() {
       return local.toJSON().slice(0,10);
   });
 
-// function ObjectId(hexString) { return new Mongo.ObjectID(hexString); };
+getGlobalFilterForMongo = function (filterObj) {
+	var returnObj = { inquiryDate: {
+				$gte: filterObj.dates.startDate,
+				$lte: filterObj.dates.endDate
+			} };
+	return returnObj;
+};

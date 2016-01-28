@@ -14,7 +14,7 @@ Meteor.startup(function() {
 });
 
 // Only publish data for the matches we care about. Be careful not to over-publish
-Meteor.publish('MatchPointMetrics', function(dateRange) {
+Meteor.publish('MatchPointMetrics', function(monFilterString) {
 
   // console.log('dateRange',dateRange);
 
@@ -23,11 +23,7 @@ Meteor.publish('MatchPointMetrics', function(dateRange) {
 
   // Define our aggregation pipeline
   var pipeline = [
-    {$match : { inquiryDate: {
-      $gte: dateRange.startDate,
-      $lte: dateRange.endDate
-      } }
-    },
+    {$match : monFilterString},
     {$match : { source: { $ne: "" } }},//exclude blank source records
     {
       $group: {
