@@ -61,11 +61,13 @@ Template.barChart.onRendered( function(){
 		Meteor.subscribe('MatchPointMetrics',monFilterString);
 
 		var data = MatchPointMetrics.find({}).fetch();
-		// console.log('data',data);
+		console.log('data',data);
 
 		x.domain(data.map(function(d) { return d._id; }));
 		y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
+		chart.selectAll("*").remove();
+		
 		chart.append("g")
 		  .attr("class", "x axis")
 		  .attr("transform", "translate(0," + (height*.9) + ")")
@@ -85,45 +87,47 @@ Template.barChart.onRendered( function(){
 		chart.selectAll(".bar")
 		  .data(data)
 		.enter().append("rect")
-		  .attr("class", "bar");
+			.attr("class", "bar")
+			.attr("x", function(d) { return x(d._id); })
+			.attr("y", (height*.9))
+			.attr("width", x.rangeBand())
+			.attr("height", 0)
+		  ;
 
 		var bar = chart.selectAll(".bar");
 
 		//Update the bars and draw width, height, and positioning
 		bar.transition()
 			.delay(function(d, i) {
-				return i / data.length * 1000;
-			}) // this delay will make transistions sequential instead of paralle
-			.duration(500)
-			.attr("x", function(d) { return x(d._id); })
+				return i * 300;
+			}) // this delay will make transistions sequential instead of parallel
+			.duration(2000)
 			.attr("y", function(d) { return y(d.value); })
-			.attr("width", x.rangeBand())
 			.attr("height", function(d) { return (height*.9) - y(d.value); })
 			.attr("fill", function(d) {
 				return "rgb(0, 0, " + (d.value * 10) + ")";
 			});
 
 
+		var svg = d3.select("div#barChart svg");
 		//Update all labels
-
-		// //Select…
-		// var labels = svg.selectAll("text")
-		// 	.data(dataset, key);
-		
+		var labels = svg.selectAll("text")
+			.data(data);
+		console.log('labels',labels);
 		// //Enter…
-		// labels.enter()
-		// 	.append("text")
-		// 	.text(function(d) {
-		// 		return d.value;
-		// 	})
-		// 	.attr("text-anchor", "middle")
-		// 	.attr("x", width)
-		// 	.attr("y", function(d) {
-		// 		return h - yScale(d.value) + 14;
-		// 	})						
-		//    .attr("font-family", "sans-serif")
-		//    .attr("font-size", "11px")
-		//    .attr("fill", "white");
+		labels.enter()
+			.append("text")
+			.text(function(d) {
+				return d.value;
+			})
+			.attr("text-anchor", "middle")
+			.attr("x", function(d) { return x(d._id); })
+			.attr("y", function(d) {
+				return height - y(d.value);
+			})						
+		   .attr("font-family", "sans-serif")
+		   .attr("font-size", "11px")
+		   .attr("fill", "black");
 
 		// //Update…
 		// labels.transition()
