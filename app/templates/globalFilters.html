@@ -16,10 +16,23 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="daterange">Application Status:</label>
+					<label class="control-label text-center col-sm-2" for="appDateRange">Application Status:</label>
 					<div id="submitSelector" class="btn-group col-sm-3">
-					    <button type="button" class="btn btn-primary col-sm-6 active">All</button>
-					    <button type="button" class="btn btn-primary col-sm-6">Submitted</button>
+					    <button type="button" id="allAppBtn" class="btn btn-primary active">All </button>
+					    <button type="button" id="submittedAppBtn" class="btn btn-primary">Submitted</button>
+					</div>
+					<div id="appSubmitDiv" class="col-sm-7" style="display: none;">
+						<input class="form-control" type="text" id="appDateRange" name="appDateRange" value="01/01/2015 - 01/31/2015" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label text-center col-sm-2" for="followDateRange">For Followup:</label>
+					<div id="followupSelector" class="btn-group col-sm-3">
+					    <button type="button" id="allFollowupBtn" class="btn btn-primary active">All </button>
+					    <button type="button" id="followupBtn" class="btn btn-primary">Followups</button>
+					</div>
+					<div id="followupDiv" class="col-sm-7" style="display: none;">
+						<input class="form-control" type="text" id="followDateRange" name="followDateRange" value="01/01/2015 - 01/31/2015" />
 					</div>
 				</div>
 			</form>

@@ -1,33 +1,31 @@
 Template.dateRangeCont.onRendered(function () {
-	Tracker.autorun(function(){
-		//check if session variable exists
-		var filters = Session.get('globalFilters');
-	    if (!filters) {
-	    	filters = updateUndefinedFilter();
-	    };
+	//check if session variable exists
+	var filters = Session.get('globalFilters');
+    if (!filters) {
+    	filters = updateUndefinedFilter();
+    };
 
-		// reformat dates into format that will be readable by mongo
-		var formattedFilters = {
-			dates: {
-				startDate: filters.dates.startDate,
-				endDate: filters.dates.endDate
-			}
-		};
+	// reformat dates into format that will be readable by mongo
+	var formattedFilters = {
+		dates: {
+			startDate: filters.dates.startDate,
+			endDate: filters.dates.endDate
+		}
+	};
 
-		// set the variable
-		Session.set('globalFilters',formattedFilters);
+	// set the variable
+	Session.set('globalFilters',formattedFilters);
 
-		// for the input date range, use the daterangepicker function from the respective library
-		$('input[name="daterange"]').daterangepicker(
-			{
-			locale: {
-				format: 'MMM D YYYY'
-				},
-			startDate: moment(filters.dates.startDate,'YYYY-MM-DD'),
-			endDate: moment(filters.dates.endDate,'YYYY-MM-DD')
-			}
-		);
-	});
+	// for the input date range, use the daterangepicker function from the respective library
+	$('input[name="daterange"]').daterangepicker(
+		{
+		locale: {
+			format: 'MMM D YYYY'
+			},
+		startDate: moment(filters.dates.startDate,'YYYY-MM-DD'),
+		endDate: moment(filters.dates.endDate,'YYYY-MM-DD')
+		}
+	);
 });
 
 Template.dateRangeCont.events({
@@ -48,10 +46,45 @@ Template.dateRangeCont.events({
 
 		// set the updated session vars to the dates in the inputbox
 		Session.set('globalFilters',filters);
-	}
-	,'click #submitSelector button': function (event) {
-		// console.log(event);
+	},
+	'click #submitSelector button': function (event) {
+		var filVar;
 		$('#submitSelector button').addClass('active').not(event.target).removeClass('active');
+		if (event.target.id==="submittedAppBtn") {
+			$('#appSubmitDiv').show('2000');
+			filVar = setFilterToggle("appSubmitFilter",true);
+			Session.set('globalFilters',filVar);
+		} else{
+			$('#appSubmitDiv').hide('2000');
+			filVar = setFilterToggle("appSubmitFilter",false);
+			Session.set('globalFilters',filVar);
+		};
+	},
+	'click #followupSelector button': function (event) {
+		var filVar;
+		$('#followupSelector button').addClass('active').not(event.target).removeClass('active');
+		if (event.target.id==="followupBtn") {
+			$('#followupDiv').show('2000');
+			filVar = setFilterToggle("followupFilter",true);
+			Session.set('globalFilters',filVar);
+		} else{
+			$('#followupDiv').hide('2000');
+			filVar = setFilterToggle("followupFilter",false);
+			Session.set('globalFilters',filVar);
+		};
 	}
 });
 
+setFilterToggle = function (field, value) {
+	//get session variable
+	var filters = Session.get('globalFilters');
+    if (!filters) {
+    	filters = updateUndefinedFilter();
+    };
+
+	//update the dates in the global filter object
+	filters[field] = value;
+	// set the updated session vars to the dates in the inputbox
+
+	return filters;
+};
