@@ -65,7 +65,7 @@ Template.editLead.events({
 
 		var returnMsg = Meteor.call("updateLead", documentId, leadText);
 		if(returnMsg='success'){
-			Router.go('viewLeads');
+			Router.go('home');
 		};
 	},
 	'click .delete-lead': function(event){
@@ -74,7 +74,7 @@ Template.editLead.events({
 		var confirm = window.confirm("Delete this record?");
 		if(confirm){
 			var removeRec = Meteor.call("removeLead", documentId);
-			Router.go('viewLeads');
+			Router.go('home');
 		}
 	}
 });

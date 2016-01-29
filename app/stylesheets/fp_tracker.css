@@ -1,9 +1,9 @@
 
 /*filter styling*/
-#daterange {
+#daterange, #appDateRange, #followDateRange {
   text-align: center;
 }
-#daterange:hover {
+#daterange:hover, #appDateRange:hover, #followDateRange:hover {
   cursor: pointer;
 }
 .panel-title a {
