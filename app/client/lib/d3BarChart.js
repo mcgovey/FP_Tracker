@@ -61,12 +61,32 @@ Template.barChart.onRendered( function(){
 		Meteor.subscribe('MatchPointMetrics',monFilterString);
 
 		var data = MatchPointMetrics.find({}).fetch();
-		console.log('data',data);
+		// console.log('data',data);
 
 		x.domain(data.map(function(d) { return d._id; }));
 		y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
 		chart.selectAll("*").remove();
+
+    	var bar = chart.selectAll("g")
+			.data(data)
+		  .enter().append("g")
+			// .attr("transform", function(d, i) { return "translate(0," + i * (height*.9) + ")"; })
+			;
+
+		bar.append("rect")
+			.attr("class", "bar")
+			.attr("x", function(d) { return x(d._id); })
+			.attr("y", (height*.9))
+			.attr("width", x.rangeBand())
+			.attr("height", 0);
+
+		bar.append("text")
+		    .attr("x", function(d) { return x(d._id)+(x.rangeBand()/2.35); })
+		    .attr("y", function(d) { return (y(d.value)+12); })
+		    .attr("dy", ".35em")
+		    .text(function(d) { return d.value; })
+		    .attr("fill", "white");
 		
 		chart.append("g")
 		  .attr("class", "x axis")
@@ -84,20 +104,23 @@ Template.barChart.onRendered( function(){
 		  .attr("dy", ".71em")
 		  .style("text-anchor", "end");
 
-		chart.selectAll(".bar")
-		  .data(data)
-		.enter().append("rect")
-			.attr("class", "bar")
-			.attr("x", function(d) { return x(d._id); })
-			.attr("y", (height*.9))
-			.attr("width", x.rangeBand())
-			.attr("height", 0)
-		  ;
 
-		var bar = chart.selectAll(".bar");
+
+
+		// chart.selectAll(".bar")
+		//   .data(data)
+		// .enter().append("rect")
+		// 	.attr("class", "bar")
+		// 	.attr("x", function(d) { return x(d._id); })
+		// 	.attr("y", (height*.9))
+		// 	.attr("width", x.rangeBand())
+		// 	.attr("height", 0)
+		//   ;
+
+		// var bar = chart.selectAll(".bar");
 
 		//Update the bars and draw width, height, and positioning
-		bar.transition()
+		bar.selectAll(".bar").transition()
 			.delay(function(d, i) {
 				return i * 300;
 			}) // this delay will make transistions sequential instead of parallel
@@ -109,25 +132,25 @@ Template.barChart.onRendered( function(){
 			});
 
 
-		var svg = d3.select("div#barChart svg");
-		//Update all labels
-		var labels = svg.selectAll("text")
-			.data(data);
-		console.log('labels',labels);
-		// //Enter…
-		labels.enter()
-			.append("text")
-			.text(function(d) {
-				return d.value;
-			})
-			.attr("text-anchor", "middle")
-			.attr("x", function(d) { return x(d._id); })
-			.attr("y", function(d) {
-				return height - y(d.value);
-			})						
-		   .attr("font-family", "sans-serif")
-		   .attr("font-size", "11px")
-		   .attr("fill", "black");
+		// var svg = d3.select("div#barChart svg");
+		// //Update all labels
+		// var labels = svg.selectAll("text")
+		// 	.data(data);
+		// console.log('labels',labels);
+		// // //Enter…
+		// labels.enter()
+		// 	.append("text")
+		// 	.text(function(d) {
+		// 		return d.value;
+		// 	})
+		// 	.attr("text-anchor", "middle")
+		// 	.attr("x", function(d) { return x(d._id); })
+		// 	.attr("y", function(d) {
+		// 		return height - y(d.value);
+		// 	})						
+		//    .attr("font-family", "sans-serif")
+		//    .attr("font-size", "11px")
+		//    .attr("fill", "black");
 
 		// //Update…
 		// labels.transition()
@@ -168,5 +191,18 @@ Template.barChart.onRendered( function(){
 	      }
 	    }
 	  });
+	}
+});
+
+Template.fpSourceChart.helpers({
+	'totalLeads': function(){
+		// var dateRange = Session.get('dates');
+		var appFilters = Session.get('globalFilters');
+		var monFilterString = getGlobalFilterForMongo(appFilters);
+		var returnString = Leads.find(
+			monFilterString,
+			{sort: {inquiryDate: -1, createdAt: -1}}).fetch().length;
+		console.log(returnString);
+		return returnString;
 	}
 });

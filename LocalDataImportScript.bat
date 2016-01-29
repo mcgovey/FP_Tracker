@@ -24,11 +24,11 @@ mongodump -u client -h sky.member1.mongolayer.com:27017 -d YOURSITE_meteor_com\
 cd "C:\Program Files\MongoDB\Server\3.2\bin"
 .\mongodump.exe --host localhost:3001 --db meteorBackupData -o C:/Meteor/fp_tracker
 
-meteor deploy fptracker.meteor.com --delete
+meteor deploy fp_tracker.meteor.com --delete
 
 cd "C:\Meteor\FP_Tracker"
-meteor deploy fptracker.meteor.com
+meteor deploy fp_tracker.meteor.com
 
 meteor mongo --url fp_tracker.meteor.com
 
-.\mongorestore.exe -u client-aaa025c6 -p 2a5507a1-aed4-333d-9de4-92040fde649b -h production-db-e1.meteor.io:27017 --db fp_tracker_meteor_com C:\Meteor\fp_tracker\meteor
+.\mongorestore.exe -u client-b71044c9 -p 669443eb-1332-2509-8cc5-f5384ab76245 -h SG-mother1-6243.servers.mongodirector.com:27017 --db fp_tracker_meteor_com C:\Meteor\fp_tracker\meteor
