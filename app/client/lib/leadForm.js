@@ -5,11 +5,11 @@ Template.addLead.onRendered(function() {
 
 //Get session variables for dropdowns then set the drop values
 Template.leadForm.onRendered(function() {
-  var leadSource = Session.get('clickedSource'),
-      leadAppStatus = Session.get('clickedAppStatus');
+  var leadSource = Session.get('clickedSource');
+      // leadAppStatus = Session.get('clickedAppStatus');
 
   $('#leadSource').val(leadSource);
-  $('#leadAppStatus').val(leadAppStatus);
+  // $('#leadAppStatus').val(leadAppStatus);
 });
 
 //helper if user directs to page without clicking from main
@@ -27,11 +27,11 @@ Template.leadForm.helpers({
 	  return ["Google", "ACS", "Ad Campaign", "Word of Mouth", "Foster Parent", 
 	          "Independent Recruitment Event", "ACS-Sponsored Recruitment Event", 
 	          "Child-specific", "Unknown/Other"]
-	},
-	//values for application status dropdown
-	appStatus: function(){
-	  return ["Open","Submitted","Closed"]
 	}
+	// //values for application status dropdown
+	// ,appStatus: function(){
+	//   return ["Open","Submitted","Closed"]
+	// }
 });
 
 //event for creating a new lead
@@ -51,6 +51,7 @@ Template.addLead.events({
 				//after 2 seconds change button back to standard format
 				.delay(2000).queue(function(){
 					$(this).addClass("btn-primary").removeClass("btn-success").html("Create FP Record").dequeue();
+					Router.go('/');
 				});
 		};
 	}
@@ -65,7 +66,7 @@ Template.editLead.events({
 
 		var returnMsg = Meteor.call("updateLead", documentId, leadText);
 		if(returnMsg='success'){
-			Router.go('home');
+			Router.go('/');
 		};
 	},
 	'click .delete-lead': function(event){
@@ -74,7 +75,7 @@ Template.editLead.events({
 		var confirm = window.confirm("Delete this record?");
 		if(confirm){
 			var removeRec = Meteor.call("removeLead", documentId);
-			Router.go('home');
+			Router.go('/');
 		}
 	}
 });
@@ -83,7 +84,7 @@ Template.editLead.events({
 Template.leads.events({
 	'click a.clickView': function(event) {
 		Session.set('clickedSource',this.source);
-		Session.set('clickedAppStatus',this.appStatus);
+		// Session.set('clickedAppStatus',this.appStatus);
 	}
 });
 

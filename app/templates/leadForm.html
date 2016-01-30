@@ -1,13 +1,21 @@
 <template name="addLead">
-	<h2 class="pageLabel">Add a New Potential Foster Parent</h2>
+	<h2 class="text-center">Add a New Potential Foster Parent</h2>
 	{{> leadForm}}	
+</template>
+
+<template name="editLead">
+	<h2 class="text-center">Edit this potential foster parent</h2>
+	{{> leadForm}}
+	<!-- {{setDropdownValue 'leadAppStatus' this.appStatus}} -->
+	{{setDropdownValue 'leadSource' this.source}}
 </template>
 
 <template name="leadForm">
 	<!-- {{log}} -->
 	<div class="container">
-		<div class="col-sm-12">
 			<form id="newLeadForm">
+    <div class="col-sm-6">
+    	<div class="well well-lg">
 				<div class="form-group">
 				  <label for="name">Name:</label>
 				  <input type="text" value={{name}} name="leadName" class="form-control" id="name">
@@ -53,7 +61,7 @@
 				  <input type="date" name="leadAppSubmitDate" value={{appSubmitDate}} class="form-control" id="leadAppSubmitDate">
 				</div>
 
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label for="leadAppStatus">Application Status: </label>
 					<select class="form-control" name="leadAppStatus" id="leadAppStatus">
 					    <option disabled="disabled" selected="selected">Please Select</option>
@@ -61,7 +69,7 @@
 					        <option value="{{this}}">{{this}}</option>
 					    {{/each}}
 					</select>
-				</div>
+				</div> -->
 
 				<div class="form-group">
 				  <label for="leadAppDecisionDate">Date of Application Decision:</label>
@@ -89,24 +97,29 @@
 				</div>
 
 				<div class="form-group">
+				  <label for="leadPhoneNum">Alt Phone Number:</label>
+				  <input type="tel" value={{altPhoneNum}} name="leadAltPhoneNum" class="form-control" id="leadAltPhoneNum">
+				</div>
+
+				<div class="form-group">
 				  <label for="leadEmail">Email Address:</label>
 				  <input type="email" value={{email}} name="leadEmail" class="form-control" id="leadEmail">
 				</div>
 
-				<div class="form-group">
+				<!-- <div class="form-group">
 				  <label for="leadStreetAddress">Street Address:</label>
 				  <input type="text" value={{streetAddress}} name="leadStreetAddress" class="form-control" id="leadStreetAddress">
-				</div>
+				</div> -->
 
 				<div class="form-group">
 				  <label for="leadBorough">Borough:</label>
 				  <input type="text" value={{borough}} name="leadBorough" class="form-control" id="leadBorough">
 				</div>
 
-				<div class="form-group">
+				<!-- <div class="form-group">
 				  <label for="leadZipCode">Zip Code:</label>
 				  <input type="text" value={{zipCode}} name="leadZipCode" class="form-control" id="leadZipCode">
-				</div>
+				</div> -->
 
 				{{#if _id}}
 		    		<button id="submit" type="submit" class="btn btn-primary btn-block updateLeadBtn">Update Foster Parent</button>
@@ -114,14 +127,8 @@
 		    	{{else}}
 		    		<button id="submit" type="submit" class="btn btn-primary btn-block createLeadBtn">Create Foster Parent Record</button>
 		    	{{/if}}
-			</form>
 		</div>
+		</div>
+			</form>
 	</div>
-</template>
-
-<template name="editLead">
-	<h2 class="pageLabel">Edit this potential foster parent</h2>
-	{{> leadForm}}
-	{{setDropdownValue 'leadAppStatus' this.appStatus}}
-	{{setDropdownValue 'leadSource' this.source}}
 </template>

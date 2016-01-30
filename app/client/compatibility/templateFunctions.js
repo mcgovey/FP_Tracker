@@ -8,16 +8,17 @@ var getAllFields = function () {
 		followupDate  : $('[name="leadFollowupDate"]').val(),
 		orientAttendDate : $('[name="leadOrientAttendDate"]').val(),
 		appSubmitDate : $('[name="leadAppSubmitDate"]').val(),
-		appStatus     : $('[name="leadAppStatus"]').val(),
+		// appStatus     : $('[name="leadAppStatus"]').val(),
 		appDecisionDate : $('[name="leadAppDecisionDate"]').val(),
 		reasonDiscont : $('[name="leadReasonDiscont"]').val(),
 		homeOpenDate  : $('[name="leadHomeOpenDate"]').val(),
 		homeOpenNotes : $('[name="leadHomeOpenNotes"]').val(),
 		phoneNum      : $('[name="leadPhoneNum"]').val(),
+		altPhoneNum	  : $('[name="leadAltPhoneNum"]').val(),
 		email         : $('[name="leadEmail"]').val(),
-		streetAddress : $('[name="leadStreetAddress"]').val(),
-		borough       : $('[name="leadBorough"]').val(),
-		zipCode       : $('[name="leadZipCode"]').val()
+		// streetAddress : $('[name="leadStreetAddress"]').val(),
+		borough       : $('[name="leadBorough"]').val()
+		// ,zipCode       : $('[name="leadZipCode"]').val()
 	};
 	return leadText;
 };

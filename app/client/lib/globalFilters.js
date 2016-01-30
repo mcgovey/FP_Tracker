@@ -18,15 +18,9 @@ Template.dateRangeCont.onRendered(function () {
 	// Session.set('globalFilters',formattedFilters);
 
 	// for the input date range, use the daterangepicker function from the respective library
-	$('input[name="daterange"]').daterangepicker(
-		{
-		locale: {
-			format: 'MMM D YYYY'
-			},
-		startDate: moment(filters.dates.startDate,'YYYY-MM-DD'),
-		endDate: moment(filters.dates.endDate,'YYYY-MM-DD')
-		}
-	);
+
+	setDateInputField('daterange','dates',filters);
+
 	$('input[name="appDateRange"]').daterangepicker(
 		{
 		locale: {
@@ -151,3 +145,15 @@ setFilterToggle = function (field, value) {
 
 	return filters;
 };
+
+setDateInputField = function (inputName, varName, filters) {
+	$('input[name="'+daterange+'"]').daterangepicker(
+		{
+		locale: {
+			format: 'MMM D YYYY'
+			},
+		startDate: moment(filters[varName].startDate,'YYYY-MM-DD'),
+		endDate: moment(filters[varName].endDate,'YYYY-MM-DD')
+		}
+	);
+}

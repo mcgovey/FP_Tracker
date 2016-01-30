@@ -74,6 +74,7 @@ Template.barChart.onRendered( function(){
 			// .attr("transform", function(d, i) { return "translate(0," + i * (height*.9) + ")"; })
 			;
 
+		//add rect elements for the bars
 		bar.append("rect")
 			.attr("class", "bar")
 			.attr("x", function(d) { return x(d._id); })
@@ -81,6 +82,7 @@ Template.barChart.onRendered( function(){
 			.attr("width", x.rangeBand())
 			.attr("height", 0);
 
+		//add text to the top of the bars
 		bar.append("text")
 		    .attr("x", function(d) { return x(d._id)+(x.rangeBand()/2.35); })
 		    .attr("y", function(d) { return (y(d.value)+12); })
@@ -88,6 +90,7 @@ Template.barChart.onRendered( function(){
 		    .text(function(d) { return d.value; })
 		    .attr("fill", "white");
 		
+		//create the x-axis
 		chart.append("g")
 		  .attr("class", "x axis")
 		  .attr("transform", "translate(0," + (height*.9) + ")")
@@ -95,6 +98,7 @@ Template.barChart.onRendered( function(){
 		.selectAll(".tick text")
 		  .call(wrap, x.rangeBand());
 
+		//create the y-axis
 		chart.append("g")
 		  .attr("class", "y axis")
 		  .call(yAxis)
@@ -104,20 +108,6 @@ Template.barChart.onRendered( function(){
 		  .attr("dy", ".71em")
 		  .style("text-anchor", "end");
 
-
-
-
-		// chart.selectAll(".bar")
-		//   .data(data)
-		// .enter().append("rect")
-		// 	.attr("class", "bar")
-		// 	.attr("x", function(d) { return x(d._id); })
-		// 	.attr("y", (height*.9))
-		// 	.attr("width", x.rangeBand())
-		// 	.attr("height", 0)
-		//   ;
-
-		// var bar = chart.selectAll(".bar");
 
 		//Update the bars and draw width, height, and positioning
 		bar.selectAll(".bar").transition()
@@ -130,43 +120,6 @@ Template.barChart.onRendered( function(){
 			.attr("fill", function(d) {
 				return "rgb(0, 0, " + (d.value * 10) + ")";
 			});
-
-
-		// var svg = d3.select("div#barChart svg");
-		// //Update all labels
-		// var labels = svg.selectAll("text")
-		// 	.data(data);
-		// console.log('labels',labels);
-		// // //Enter…
-		// labels.enter()
-		// 	.append("text")
-		// 	.text(function(d) {
-		// 		return d.value;
-		// 	})
-		// 	.attr("text-anchor", "middle")
-		// 	.attr("x", function(d) { return x(d._id); })
-		// 	.attr("y", function(d) {
-		// 		return height - y(d.value);
-		// 	})						
-		//    .attr("font-family", "sans-serif")
-		//    .attr("font-size", "11px")
-		//    .attr("fill", "black");
-
-		// //Update…
-		// labels.transition()
-		// 	// .delay(function(d, i) {
-		// 	// 	return i / dataset.length * 1000;
-		// 	// }) // this delay will make transistions sequential instead of paralle
-		// 	.duration(500)
-		// 	.attr("x", function(d, i) {
-		// 		return xScale(i) + xScale.rangeBand() / 2;
-		// 	}).attr("y", function(d) {
-		// 		return h - yScale(d.value) + 14;
-		// 	}).text(function(d) {
-		// 		return d.value;
-		// 	});
-
-	// });
 	});
 
 	function wrap(text, width) {

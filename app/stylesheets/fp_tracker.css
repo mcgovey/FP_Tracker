@@ -52,18 +52,6 @@
 	/*text-align: center;*/
 	width: 		140px;
 }
-#newLeadForm {
-    width: 		300px;
-    background-color: rgb(220,220,220);
-    padding: 	20px;
-    /*text-align: center;*/
-    margin: 	auto;
-}
-
-.pageLabel{
-	margin: 	20px;
-	text-align: center;
-}
 
 a#login-sign-in-link,
 a#login-name-link {
