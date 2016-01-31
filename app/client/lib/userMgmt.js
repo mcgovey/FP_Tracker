@@ -15,6 +15,11 @@ Template.registerModal.events({
         });
         Meteor.loginWithPassword(email, password);
         $('#registerModalDiv').modal('toggle');
+    },
+    'click #loginLink': function (event) {
+        event.preventDefault();
+        $('#registerModalDiv').modal('hide');
+        $('#loginModalDiv').modal('show');
     }
 });
 
@@ -43,6 +48,12 @@ Template.loginModal.events({
                 $('#loginModalDiv').modal('toggle');
             }
         });
+    },
+    'click #createAcctLink': function (event) {
+        event.preventDefault();
+        console.log('this is called');
+        $('#loginModalDiv').modal('hide');
+        $('#registerModalDiv').modal('show');
     }
 });
 

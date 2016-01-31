@@ -39,3 +39,10 @@ Template.main.helpers({
 		};
 	}
 });
+
+Template.main.onRendered(function () {
+	var userStatus = authedUserCheck();
+	if (!userStatus) {
+		$('#loginModalDiv').modal('show');
+	};
+});

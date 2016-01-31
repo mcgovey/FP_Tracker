@@ -7,11 +7,6 @@
   cursor: pointer;
 }
 
-/*login styling*/
-.modal-backdrop
-{
-    opacity:0.5 !important;
-}
 
 
 .panel-title a {
