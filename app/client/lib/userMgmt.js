@@ -8,7 +8,10 @@ Template.registerModal.events({
             password: password
         }, function(error){
             if(error){
-                console.log(error.reason); // Output error if registration fails
+                // console.log(error.reason); // Output error if registration fails
+                var msg =   '<div id="loginAlert"  class="alert alert-danger"><strong>Uh oh!</strong> '+error.reason;
+                    msg +=  '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>';
+                $('#registerModalBody').prepend(msg);
             } else {
                 $('#registerModalDiv').modal('toggle'); // Redirect user if registration succeeds
             }
@@ -51,7 +54,7 @@ Template.loginModal.events({
     },
     'click #createAcctLink': function (event) {
         event.preventDefault();
-        console.log('this is called');
+        // console.log('this is called');
         $('#loginModalDiv').modal('hide');
         $('#registerModalDiv').modal('show');
     }

@@ -6,47 +6,19 @@ Template.dateRangeCont.onRendered(function () {
     	Session.set('globalFilters',filters);
     };
 
-	// reformat dates into format that will be readable by mongo
-	// var formattedFilters = {
-	// 	dates: {
-	// 		startDate: filters.dates.startDate,
-	// 		endDate: filters.dates.endDate
-	// 	}
-	// };
-
-	// set the variable
-	// Session.set('globalFilters',formattedFilters);
-
-	// for the input date range, use the daterangepicker function from the respective library
-
-	setDateInputField('daterange','dates',filters);
-
-	$('input[name="appDateRange"]').daterangepicker(
-		{
-		locale: {
-			format: 'MMM D YYYY'
-			},
-		startDate: moment(filters.appDateRange.startDate,'YYYY-MM-DD'),
-		endDate: moment(filters.appDateRange.endDate,'YYYY-MM-DD')
-		}
-	);
-	$('input[name="followDateRange"]').daterangepicker(
-		{
-		locale: {
-			format: 'MMM D YYYY'
-			},
-		startDate: moment(filters.followDateRange.startDate,'YYYY-MM-DD'),
-		endDate: moment(filters.followDateRange.endDate,'YYYY-MM-DD')
-		}
-	);
+    //call function to set date filters using date picker
+	setDateInputField('daterange','daterange',filters);
+	setDateInputField('appDateRange','appDateRange',filters);
+	setDateInputField('followDateRange','followDateRange',filters);
+	setDateInputField('expectOrientDateRange','followDateRange',filters);
+	setDateInputField('orientDateRange','followDateRange',filters);
 });
 
 Template.dateRangeCont.events({
 	// on any change in the input field run the function to update the session var
-	'change #daterange' : function (event) {
+	'change .dateinput' : function (event) {
 		//get the date range from the input box
-		var daterange = $('input[name="daterange"]').val().split(" - ");
-
+		var daterange = $('input[name="'+event.target.id+'"]').val().split(" - ");
 
 		//update the dates in the temp filter object to pass to set function
 		var dateObj = {
@@ -55,39 +27,7 @@ Template.dateRangeCont.events({
 		};
 
 		// call session variable set func
-		filVar = setFilterToggle("dates",dateObj);
-		// set the updated session vars to the dates in the inputbox
-		Session.set('globalFilters',filVar);
-	},
-	'change #appDateRange' : function (event) {
-		//get the date range from the input box
-		var daterange = $('input[name="appDateRange"]').val().split(" - ");
-
-
-		//update the dates in the temp filter object to pass to set function
-		var dateObj = {
-			startDate	: moment(daterange[0],'MMM D YYYY').format('YYYY-MM-DD'),
-			endDate		: moment(daterange[1],'MMM D YYYY').format('YYYY-MM-DD')
-		};
-		
-		// call session variable set func
-		filVar = setFilterToggle("appDateRange",dateObj);
-		// set the updated session vars to the dates in the inputbox
-		Session.set('globalFilters',filVar);
-	},
-	'change #followDateRange' : function (event) {
-		//get the date range from the input box
-		var daterange = $('input[name="followDateRange"]').val().split(" - ");
-
-
-		//update the dates in the temp filter object to pass to set function
-		var dateObj = {
-			startDate	: moment(daterange[0],'MMM D YYYY').format('YYYY-MM-DD'),
-			endDate		: moment(daterange[1],'MMM D YYYY').format('YYYY-MM-DD')
-		};
-		
-		// call session variable set func
-		filVar = setFilterToggle("followDateRange",dateObj);
+		filVar = setFilterToggle(event.target.id,dateObj);
 		// set the updated session vars to the dates in the inputbox
 		Session.set('globalFilters',filVar);
 	},
@@ -129,6 +69,32 @@ Template.dateRangeCont.events({
 			filVar = setFilterToggle("followupFilter",false);
 			Session.set('globalFilters',filVar);
 		};
+	},
+	'click #expectOrientSelector button': function (event) {
+		var filVar;
+		$('#expectOrientSelector button').addClass('active').not(event.target).removeClass('active');
+		if (event.target.id==="expectOrientBtn") {
+			$('#expectOrientDiv').show('2000');
+			filVar = setFilterToggle("expectOrientFilter",true);
+			Session.set('globalFilters',filVar);
+		} else{
+			$('#expectOrientDiv').hide('2000');
+			filVar = setFilterToggle("expectOrientFilter",false);
+			Session.set('globalFilters',filVar);
+		};
+	},
+	'click #orientSelector button': function (event) {
+		var filVar;
+		$('#orientSelector button').addClass('active').not(event.target).removeClass('active');
+		if (event.target.id==="orientBtn") {
+			$('#orientDiv').show('2000');
+			filVar = setFilterToggle("orientFilter",true);
+			Session.set('globalFilters',filVar);
+		} else{
+			$('#orientDiv').hide('2000');
+			filVar = setFilterToggle("orientFilter",false);
+			Session.set('globalFilters',filVar);
+		};
 	}
 });
 
@@ -147,7 +113,8 @@ setFilterToggle = function (field, value) {
 };
 
 setDateInputField = function (inputName, varName, filters) {
-	$('input[name="'+daterange+'"]').daterangepicker(
+	// console.log('everything passed:',inputName,varName,filters);
+	$('input[name="'+inputName+'"]').daterangepicker(
 		{
 		locale: {
 			format: 'MMM D YYYY'
@@ -156,4 +123,4 @@ setDateInputField = function (inputName, varName, filters) {
 		endDate: moment(filters[varName].endDate,'YYYY-MM-DD')
 		}
 	);
-}
+};

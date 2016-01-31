@@ -13,30 +13,50 @@
 					<label class="control-label col-sm-2" for="daterange">Inquiry Date:</label>
 					<div id="inqDateSelector" class="btn-group col-sm-3">
 					    <button type="button" id="allInqDateBtn" class="btn btn-primary">All </button>
-					    <button type="button" id="filteredInqDateBtn" class="btn btn-primary active">Filtered</button>
+					    <button type="button" id="filteredInqDateBtn" class="btn btn-primary active">Within Range</button>
 					</div>
 					<div id="daterangeDiv" class="col-sm-7">
-						<input class="form-control" type="text" id="daterange" name="daterange" value="01/01/2015 - 01/31/2015" />
+						<input class="form-control dateinput" type="text" id="daterange" name="daterange" value="01/01/2015 - 01/31/2015" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label text-center col-sm-2" for="appDateRange">Application Status:</label>
+					<label class="control-label text-center col-sm-2" for="appDateRange">Application Date:</label>
 					<div id="submitSelector" class="btn-group col-sm-3">
 					    <button type="button" id="allAppBtn" class="btn btn-primary active">All </button>
-					    <button type="button" id="submittedAppBtn" class="btn btn-primary">Submitted</button>
+					    <button type="button" id="submittedAppBtn" class="btn btn-primary">Within Range</button>
 					</div>
 					<div id="appSubmitDiv" class="col-sm-7" style="display: none;">
-						<input class="form-control" type="text" id="appDateRange" name="appDateRange" value="01/01/2015 - 01/31/2015" />
+						<input class="form-control dateinput" type="text" id="appDateRange" name="appDateRange" value="01/01/2015 - 01/31/2015" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label text-center col-sm-2" for="followDateRange">For Followup:</label>
+					<label class="control-label text-center col-sm-2" for="followDateRange">Followup Date:</label>
 					<div id="followupSelector" class="btn-group col-sm-3">
 					    <button type="button" id="allFollowupBtn" class="btn btn-primary active">All </button>
-					    <button type="button" id="followupBtn" class="btn btn-primary">Followups</button>
+					    <button type="button" id="followupBtn" class="btn btn-primary">Within Range</button>
 					</div>
 					<div id="followupDiv" class="col-sm-7" style="display: none;">
-						<input class="form-control" type="text" id="followDateRange" name="followDateRange" value="01/01/2015 - 01/31/2015" />
+						<input class="form-control dateinput" type="text" id="followDateRange" name="followDateRange" value="01/01/2015 - 01/31/2015" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label text-center col-sm-2" for="expectOrientDateRange">Expected Orientation:</label>
+					<div id="expectOrientSelector" class="btn-group col-sm-3">
+					    <button type="button" id="allExpectOrientBtn" class="btn btn-primary active">All </button>
+					    <button type="button" id="expectOrientBtn" class="btn btn-primary">Within Range</button>
+					</div>
+					<div id="expectOrientDiv" class="col-sm-7" style="display: none;">
+						<input class="form-control dateinput" type="text" id="expectOrientDateRange" name="expectOrientDateRange" value="01/01/2015 - 01/31/2015" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label text-center col-sm-2" for="orientDateRange">Orientation Date:</label>
+					<div id="orientSelector" class="btn-group col-sm-3">
+					    <button type="button" id="allOrientBtn" class="btn btn-primary active">All </button>
+					    <button type="button" id="orientBtn" class="btn btn-primary">Within Range</button>
+					</div>
+					<div id="orientDiv" class="col-sm-7" style="display: none;">
+						<input class="form-control dateinput" type="text" id="orientDateRange" name="orientDateRange" value="01/01/2015 - 01/31/2015" />
 					</div>
 				</div>
 			</form>

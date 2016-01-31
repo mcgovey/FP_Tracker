@@ -155,7 +155,7 @@ Template.fpSourceChart.helpers({
 		var returnString = Leads.find(
 			monFilterString,
 			{sort: {inquiryDate: -1, createdAt: -1}}).fetch().length;
-		console.log(returnString);
+		// console.log(returnString);
 		return returnString;
 	}
 });

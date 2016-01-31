@@ -7,24 +7,33 @@ Date.prototype.toDateInputValue = (function() {
 getGlobalFilterForMongo = function (filterObj) {
 	var returnObj = {};
 	if (filterObj.inqDateFilter) {
-		// returnObj["inquiryDate"] = {$ne: ""};
 		returnObj["inquiryDate"]= {
-				$gte: filterObj.dates.startDate,
-				$lte: filterObj.dates.endDate
+				$gte: filterObj.daterange.startDate,
+				$lte: filterObj.daterange.endDate
 			};
 	};
 	if (filterObj.appSubmitFilter) {
-		// returnObj["appSubmitDate"] = {$ne: ""};
 		returnObj["appSubmitDate"]= {
 				$gte: filterObj.appDateRange.startDate,
 				$lte: filterObj.appDateRange.endDate
 			};
 	};
 	if (filterObj.followupFilter) {
-		// returnObj["followupDate"] = {$ne: ""};
 		returnObj["followupDate"]= {
 				$gte: filterObj.followDateRange.startDate,
 				$lte: filterObj.followDateRange.endDate
+			};
+	};
+	if (filterObj.expectOrientFilter) {
+		returnObj["expectOrientDate"]= {
+				$gte: filterObj.expectOrientDateRange.startDate,
+				$lte: filterObj.expectOrientDateRange.endDate
+			};
+	};
+	if (filterObj.orientFilter) {
+		returnObj["orientAttendDate"]= {
+				$gte: filterObj.orientDateRange.startDate,
+				$lte: filterObj.orientDateRange.endDate
 			};
 	};
 	// console.log('returnObj',returnObj);
@@ -40,7 +49,7 @@ updateUndefinedFilter = function () {
 	} else{
 		// if session var doesn't exist set to standard dates
 		filters = {
-			dates: {
+			daterange: {
 				startDate: moment().startOf('month').subtract(1, 'years').format('YYYY-MM-DD'),
 				endDate: moment().format('YYYY-MM-DD')
 			},
@@ -52,9 +61,19 @@ updateUndefinedFilter = function () {
 				startDate: moment().startOf('month').subtract(1, 'years').format('YYYY-MM-DD'),
 				endDate: moment().format('YYYY-MM-DD')
 			},
-			appSubmitDate: false,
-			followupDate: false,
-			inqDateFilter: true
+			expectOrientDateRange: {
+				startDate: moment().startOf('month').subtract(1, 'years').format('YYYY-MM-DD'),
+				endDate: moment().format('YYYY-MM-DD')
+			},
+			orientDateRange: {
+				startDate: moment().startOf('month').subtract(1, 'years').format('YYYY-MM-DD'),
+				endDate: moment().format('YYYY-MM-DD')
+			},
+			inqDateFilter	: true,
+			appSubmitFilter	: false,
+			followupFilter	: false,
+			expectOrientFilter	: false,
+			orientFilter	: false
 		};
 	};
 
