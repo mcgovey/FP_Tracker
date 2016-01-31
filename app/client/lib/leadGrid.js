@@ -27,3 +27,15 @@ Template.leadItem.helpers({
 	}
 });
 
+Template.main.helpers({
+	'loginPopup': function () {
+		var userStatus = authedUserCheck();
+		// console.log(userStatus);
+		if (!userStatus) {
+			$('#loginModalDiv').modal('show');
+			return false;
+		} else {
+			return true;
+		};
+	}
+});

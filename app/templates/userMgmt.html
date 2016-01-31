@@ -8,11 +8,32 @@
         	<button type="button" class="close" data-dismiss="modal">&times;</button>
    			<h4 class="modal-title">Login</h4>
    		  </div>
-	      <div class="modal-body">
-		    <form class="login">
-		        <p>Email: <input type="email" name="email"></p>
-		        <p>Password: <input type="password" name="password"></p>
-		        <p><input type="submit" value="Login"></p>
+	      <div class="modal-body" id="loginModalBody">
+		    <form class="login form-horizontal">
+		    	<div class="form-group">
+			        <label for="email" class="control-label col-sm-2" >Email: </label>
+					<div class="col-sm-10">
+						<input class="form-control" type="email" name="email">	
+					</div>
+		        </div>
+
+
+		    	<div class="form-group">
+			        <label for="password" class="control-label col-sm-2" >Password: </label>
+					<div class="col-sm-10">
+			        	<input class="form-control" type="password" name="password">
+			        </div>
+				</div>
+				
+		        
+				<div class="form-group">
+					<div class="col-sm-12">
+		        		<input class="btn btn-block btn-primary" type="submit" value="Login">
+		        	</div>
+		    	</div>
+		    	<div class="form-group">
+						<a id="createAcctLink" class="text-center" href="#"><p class="text-center">Create an account</p></a>
+				</div>
 		    </form>
 	      </div>
 	      <!-- <div class="modal-footer">

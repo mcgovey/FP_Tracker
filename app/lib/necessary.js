@@ -60,3 +60,16 @@ updateUndefinedFilter = function () {
 
 	return filters;
 };
+
+authedUserCheck = function () {
+	//check for user name - use ternary operator for when this function runs before full page load
+	var authedUser = Meteor.user() ? Meteor.user().loginStateSignedUp : " ";
+	// confirm that account is real
+	if (authedUser) {
+		// console.log('real account');
+		return true;
+	} else if (!authedUser) {
+		// console.log('guest account');
+		return false;
+	};
+}

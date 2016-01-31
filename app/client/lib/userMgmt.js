@@ -10,13 +10,14 @@ Template.registerModal.events({
             if(error){
                 console.log(error.reason); // Output error if registration fails
             } else {
-                Router.go("home"); // Redirect user if registration succeeds
+                $('#registerModalDiv').modal('toggle'); // Redirect user if registration succeeds
             }
         });
         Meteor.loginWithPassword(email, password);
         $('#registerModalDiv').modal('toggle');
     }
 });
+
 
 Template.navigation.events({
     'click .logout': function(event){
@@ -32,28 +33,25 @@ Template.loginModal.events({
         var password = $('[name=password]').val();
         
         Meteor.loginWithPassword(email, password, function(error){
-		    if(error){
-		        console.log(error.reason);
-		    } else {
-		        $('#loginModalDiv').modal('toggle');
-		    }
-		});
+            if(error){
+                // console.log(error.reason);
+                var msg =   '<div id="loginAlert"  class="alert alert-danger"><strong>Uh oh!</strong> '+error.reason;
+                    msg +=  '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>';
+                // console.log(msg);
+                $('#loginModalBody').prepend(msg);
+            } else {
+                $('#loginModalDiv').modal('toggle');
+            }
+        });
     }
 });
+
 
 Template.navigation.helpers({
 	//function used to check if the user is logged in
 	'currentUserCust': function () {
-		//check for user name - use ternary operator for when this function runs before full page load
-		var authedUser = Meteor.user() ? Meteor.user().loginStateSignedUp : " ";
-		// confirm that account is real
-		if (authedUser) {
-			// console.log('real account');
-			return true;
-		} else if (!authedUser) {
-			// console.log('guest account');
-			return false;
-		};
-		
+		//call authentication method
+		var userStatus = authedUserCheck();
+		return userStatus;
 	}
 });
