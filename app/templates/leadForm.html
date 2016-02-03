@@ -14,7 +14,7 @@
 	<!-- {{log}} -->
 	<div class="container">
 			<form id="newLeadForm">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
     	<div class="well well-lg">
 				<div class="form-group">
 				  <label for="name">Name:</label>
@@ -72,7 +72,7 @@
 				</div> -->
 
 				<div class="form-group">
-				  <label for="leadAppDecisionDate">Date of Application Decision:</label>
+				  <label for="leadAppDecisionDate">Date Closed:</label>
 				  <input type="date" name="leadAppDecisionDate" value={{appDecisionDate}} class="form-control" id="leadAppDecisionDate">
 				</div>
 
@@ -87,8 +87,8 @@
 				</div>
 
 				<div class="form-group">
-				  <label for="leadHomeOpenNotes">Home Opened Notes:</label>
-				  <input type="text" value={{homeOpenNotes}} name="leadHomeOpenNotes" class="form-control" id="leadHomeOpenNotes">
+				  <label for="leadHomeOpenNotes">Notes:</label>
+				  <textarea class="form-control" rows="2" name="leadHomeOpenNotes" id="leadHomeOpenNotes" value="{{homeOpenNotes}}"></textarea>
 				</div>
 
 				<div class="form-group">

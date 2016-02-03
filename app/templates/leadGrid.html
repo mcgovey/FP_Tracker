@@ -1,6 +1,6 @@
 <template name="leads">
 	<div class="container">
-		<a href="{{pathFor route='addLead'}}"><div class="bigBtn btn btn-primary">Add a Lead</div></a>
+		<a href="{{pathFor route='addLead'}}"><div class="bigBtn btn btn-primary">Add an Inquiry</div></a>
 		<button id="exportAll" type="button" class="bigBtn btnRawCSV btn btn-info">Export</button>
 	</div>
 	<div class="container">
@@ -10,8 +10,8 @@
 					<th>FP Name</th>
 					<th>Inquiry Date</th>
 					<th>Source</th>
-					<th>Application Submit Date</th>
 					<th>Phone Number</th>
+					<th>Application Submit Date</th>
 					<th>Follow Up</th>
 					<th>Expected Orientation</th>
 					<!-- <th>Call History</th>
@@ -34,8 +34,8 @@
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{formatDate inquiryDate}}</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{source}}</div></a></td>
 		<!-- <td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{appStatus}}</div></a></td> -->
-		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{formatDate appSubmitDate}}</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{phoneNum}}</div></a></td>
+		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{formatDate appSubmitDate}}</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{formatDate followupDate}}</div></a></td>
 		<td><a class="clickView" href="lead/{{_id}}"><div class="clickView">{{formatDate expectOrientDate}}</div></a></td>
 		<!-- <td><a href="callHistory/{{_id}}" class="">Calls</a></td>
