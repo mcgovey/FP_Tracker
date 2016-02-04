@@ -62,8 +62,12 @@ Meteor.methods({
   },
   updateDates: function (dateField) {
     Leads.find().forEach(function(el){
-        if (el[dateField]) {
+      // var momentVar = moment(el[dateField],'MM/DD/YYYY')._d;
+      // console.log('momentVar:',momentVar);
+        if (moment(el[dateField],'MM/DD/YYYY').isValid()) {
           el[dateField]= moment(el[dateField],'MM/DD/YYYY').format('YYYY-MM-DD');
+        } else if (el[dateField]) {
+          
         } else{
           el[dateField]="";
         };
@@ -78,5 +82,9 @@ Meteor.methods({
         //Meteor.call("updateDates", "homeOpenDate");
         //Meteor.call("updateDates", "appDecisionDate");
     });
+  }
+  ,deleteAllLeads: function () {
+    Leads.remove({});
+    //Meteor.call("deleteAllLeads");
   }
 });
