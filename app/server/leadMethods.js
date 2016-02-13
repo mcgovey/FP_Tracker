@@ -60,28 +60,33 @@ Meteor.methods({
   removeLead: function (documentId){
     Leads.remove({ _id: documentId });
   },
-  updateDates: function (dateField) {
-    Leads.find().forEach(function(el){
-      // var momentVar = moment(el[dateField],'MM/DD/YYYY')._d;
-      // console.log('momentVar:',momentVar);
-        if (moment(el[dateField],'MM/DD/YYYY').isValid()) {
-          el[dateField]= moment(el[dateField],'MM/DD/YYYY').format('YYYY-MM-DD');
-        } else if (el[dateField]) {
-          
-        } else{
-          el[dateField]="";
-        };
+  updateDates: function () {
+    var dateFields = ["inquiryDate","expectOrientDate","followupDate","orientAttendDate","appSubmitDate","homeOpenDate","appDecisionDate"];
 
-        Leads.update({_id: el._id},{$set: el});
+    for (var i = dateFields.length - 1; i >= 0; i--) {
 
-        //Meteor.call("updateDates", "inquiryDate");
-        //Meteor.call("updateDates", "expectOrientDate");
-        //Meteor.call("updateDates", "followupDate");
-        //Meteor.call("updateDates", "orientAttendDate");
-        //Meteor.call("updateDates", "appSubmitDate");
-        //Meteor.call("updateDates", "homeOpenDate");
-        //Meteor.call("updateDates", "appDecisionDate");
-    });
+      Leads.find().forEach(function(el){
+        // var momentVar = moment(el[dateField],'MM/DD/YYYY')._d;
+        // console.log('momentVar:',momentVar);
+          if (moment(el[dateFields[i]],'MM/DD/YYYY').isValid()) {
+            el[dateFields[i]]= moment(el[dateFields[i]],'MM/DD/YYYY').format('YYYY-MM-DD');
+          } else if (el[dateFields[i]]) {
+            
+          } else{
+            el[dateFields[i]]="";
+          };
+
+          Leads.update({_id: el._id},{$set: el});
+ //Meteor.call("updateDates");
+          //Meteor.call("updateDates", "inquiryDate");
+          //Meteor.call("updateDates", "expectOrientDate");
+          //Meteor.call("updateDates", "followupDate");
+          //Meteor.call("updateDates", "orientAttendDate");
+          //Meteor.call("updateDates", "appSubmitDate");
+          //Meteor.call("updateDates", "homeOpenDate");
+          //Meteor.call("updateDates", "appDecisionDate");
+      });
+    };
   }
   ,deleteAllLeads: function () {
     Leads.remove({});

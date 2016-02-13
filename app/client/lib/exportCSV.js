@@ -10,7 +10,7 @@ Template.leads.events({
 
 	    var rawData = Leads.find(
 	    	monFilterString
-	    	,{fields: { _id: 0 }}).fetch();
+	    	).fetch();//,{fields: { _id: 0 }}
 	    csv = Papa.unparse(rawData);//json2csv( rawData, true, true );
 	    var blob = new Blob([csv], {type: "text/plain;charset=utf-8;",});
 
