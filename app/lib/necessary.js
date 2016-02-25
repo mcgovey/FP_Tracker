@@ -69,7 +69,7 @@ updateUndefinedFilter = function () {
 				startDate: moment().startOf('month').subtract(1, 'years').format('YYYY-MM-DD'),
 				endDate: moment().format('YYYY-MM-DD')
 			},
-			inqDateFilter	: true,
+			inqDateFilter	: false,
 			appSubmitFilter	: false,
 			followupFilter	: false,
 			expectOrientFilter	: false,
