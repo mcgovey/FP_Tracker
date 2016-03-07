@@ -10,8 +10,8 @@ Template.dateRangeCont.onRendered(function () {
 	setDateInputField('daterange','daterange',filters);
 	setDateInputField('appDateRange','appDateRange',filters);
 	setDateInputField('followDateRange','followDateRange',filters);
-	setDateInputField('expectOrientDateRange','followDateRange',filters);
-	setDateInputField('orientDateRange','followDateRange',filters);
+	setDateInputField('expectOrientDateRange','expectOrientDateRange',filters);
+	setDateInputField('orientDateRange','orientDateRange',filters);
 });
 
 Template.dateRangeCont.events({

@@ -1,9 +1,17 @@
 
 /*filter styling*/
-#daterange, #appDateRange, #followDateRange {
+#daterange, 
+#appDateRange, 
+#followDateRange,
+#expectOrientDateRange,
+#orientDateRange {
   text-align: center;
 }
-#daterange:hover, #appDateRange:hover, #followDateRange:hover {
+#daterange:hover, 
+#appDateRange:hover, 
+#followDateRange:hover,
+#expectOrientDateRange:hover,
+#orientDateRange:hover {
   cursor: pointer;
 }
 
